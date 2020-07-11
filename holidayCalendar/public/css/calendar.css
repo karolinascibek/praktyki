@@ -1,7 +1,7 @@
 
 body{
     min-width: 55rem;
-    background-color: blue;
+    background-color: #EFEBE9;
 }
 
 .calendar{
@@ -11,7 +11,7 @@ body{
 
 }
 .calendar-main{
-    background-color: blue;
+    background-color: #EFEBE9;
 }
 
 .weekdays{
@@ -64,10 +64,15 @@ body{
 .holidays{
     font-size: 1rem;
     height: 3rem;
-    display: flex;
-    justify-content: center;
+
     text-align: center;
     align-items: center;
+    width: calc(100%/6.5);
+    color:white;
+    
+}
+.hol{
+    border-top:1px solid white;
 }
 
 .prev:hover{
@@ -87,4 +92,6 @@ body{
     color: white;
     height: 3rem;
 }
-
+.fieldsWorker{
+    background: light;
+}

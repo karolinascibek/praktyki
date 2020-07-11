@@ -1,5 +1,5 @@
 const activFields = true;
-const numberOfEmployees = 6;
+const numberOfEmployees = number_of_employees;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const renderFieldsCalender=(activFields, numberOfEmployees)=>{
 
@@ -82,7 +82,7 @@ const displayFreeDays =(calender)=>{
 
             takeDiv.forEach( day =>{
                 day.classList.add('freeDay');
-                console.log(day);
+                //console.log(day);
             });
             //console.log(takeDiv);
             //takeDiv.classList.add('choiceDay');
@@ -119,7 +119,7 @@ const changeFieldColor =(calender,arrayChoiceDay)=>{
 
                     arrayChoiceDay[ arrayChoiceDay.length] = ob_day;
                 }
-                console.log(arrayChoiceDay);
+                //console.log(arrayChoiceDay);
             });
         });
 }
