@@ -1,6 +1,21 @@
+<?php 
+    $data=[];
+    if( isset($employees)){   
+        $data = $employees;
+    } 
+    $holidays_array=[];
+    if( isset($holidays)){   
+        $holidays_array=$holidays;
+    } 
+ 
+ ?>
+
 <script>
-let number_of_employees =  <?php echo count($employees);?>;
-console.log(number_of_employees);
+    let number_of_employees =  <?php  echo count($data);?>;
+        //console.log(number_of_employees);
+
+    let holidays_array =  <?php echo json_encode($holidays_array);?>;
+        //console.log(holidays_array);
 </script>
 
 <div class="calendar-main ">
@@ -60,12 +75,13 @@ console.log(number_of_employees);
                  <!-- lista pracowników -->
                 <div class="col-lg-4 col-3  bg-dark" >
                     
-                    <?php foreach($employees as $emp):?>
+                    <?php
+                    foreach($data as $emp):?>
                     <div class="d-flex bd-highlight hol ">
-                        <div class=" mr-auto bd-highlight ">  <?=$emp['name'] .' '. $emp['last_name'] ?> </div>
-                        <div class=" bd-highlight bg-success holidays d-none d-lg-block"> <?=$emp['number_free_days']?></div>
-                        <div class="bd-highlight holidays d-none d-lg-block"><?=$emp['number_free_days'] - $emp['days_used'] ?></div>
-                        <div class=" bd-highlight bg-primary holidays"><?=$emp['days_used']?></div>
+                    <div class=" mr-auto bd-highlight ">  <?=$emp['name'].' '.$emp['last_name'] ?> </div>
+                        <div class=" bd-highlight bg-success holidays d-none d-lg-block"> <?=$emp['number_free_days'] ?></div>
+                        <div class="bd-highlight holidays d-none d-lg-block"> <?=$emp['days_used']?> </div>
+                        <div class=" bd-highlight bg-primary holidays"><?=$emp['number_free_days'] - $emp['days_used']?></div>
                     </div>
                     <?php endforeach;?>
                    
@@ -83,7 +99,7 @@ console.log(number_of_employees);
     <div class='row '></div>
     
 </div>
-<?php  var_dump($employees) ?>
+<?php  var_dump($data) ?>
 
 
 klkl

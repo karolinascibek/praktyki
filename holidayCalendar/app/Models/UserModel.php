@@ -2,10 +2,10 @@
 use CodeIgniter\Database\ConnectionInterface;
 
 use CodeIgniter\Model;
-class EmployeeModel extends Model{
+class UserModel extends Model{
 
     
-    protected $table      = 'employees';
+    protected $table      = 'users';
     protected $primaryKey = 'id';
 
     //protected $returnType     = 'array';
@@ -26,9 +26,9 @@ class EmployeeModel extends Model{
         return $this->findAll();
     }
 
-    public function findEmployeesAndTheirVacationDays($id_employer){
-        $employees = $this->where(['id_employer' => $id_employer])->findAll();
-        return $employees;
+    public function findUser($id){
+        $user = $this->find($id);
+        return $user;
     }
 
 

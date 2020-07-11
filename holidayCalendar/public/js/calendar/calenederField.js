@@ -1,7 +1,9 @@
 const activFields = true;
 const numberOfEmployees = number_of_employees;
+const arrayChoiceDay = holidays_array;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const renderFieldsCalender=(activFields, numberOfEmployees)=>{
+
 
     date.setDate(1);
     const weekdays = date.getDay();
@@ -52,7 +54,9 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
     
     // wyswietlenie dni wolnych od pracy
     displayFreeDays(calender2);
-    
+
+    showChoiceFields(holidays_array);
+    console.log(holidays_array);
     //aktywne pola kalendarza
     if(activFields === true){
         //po kliknieciu na pole zmieni się kolor
@@ -119,7 +123,7 @@ const changeFieldColor =(calender,arrayChoiceDay)=>{
 
                     arrayChoiceDay[ arrayChoiceDay.length] = ob_day;
                 }
-                //console.log(arrayChoiceDay);
+                console.log(arrayChoiceDay);
             });
         });
 }

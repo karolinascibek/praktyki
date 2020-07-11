@@ -10,7 +10,7 @@ class Employee extends BaseController
 		$db=db_connect();
 		$model = new CustomModel($db);
 		echo '<prev>';
-		var_dump( );
+		//var_dump( );
 		echo '</prev>';
 		$data = [
 			'meta_title'=>'CodeIgniter 4 Blog Dynamic',
