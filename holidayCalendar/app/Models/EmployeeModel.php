@@ -6,16 +6,16 @@ class EmployeeModel extends Model{
 
     
     protected $table      = 'employees';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_employee';
 
     //protected $returnType     = 'array';
     //protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['name','last_name' ,'eamil'];
+    protected $allowedFields = ['id_employee','name','last_name' ,'email' , 'password','number_free_days','id_employer'];
 
     protected $useTimestamps = true;
-    protected $createdField  = 'data_created';
-    protected $updatedField  = 'data_updated';
+    protected $createdField  = 'employee_data_created';
+    protected $updatedField  = 'employee_data_updated';
     //protected $deletedField  = 'deleted_at';
 
     //protected $validationRules    = [];

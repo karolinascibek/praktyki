@@ -97,7 +97,7 @@ const displayDaysOfTheMonth = ( monthDays ,date) => {
     let days = "";
     for(let i=1; i <= lenghtMonth; i++){
         //przypisanie dniom identyfikatora
-        days+=`<div id="${i}-${date.getMonth()}-${date.getFullYear()}" >${i}</div>`;
+        days+=`<div id="${date.getFullYear()}-${date.getMonth()}-${i}">${i}</div>`;
         monthDays.innerHTML = days;
     }
     //console.log( monthDays);
