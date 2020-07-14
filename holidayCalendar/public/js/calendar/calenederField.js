@@ -19,7 +19,7 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
 
     let fields = ""; 
     let idx=weekdays;
-    // przydzielenie odpowienich kolorów polu z kalendarza
+    // przydzielenie odpowienich kolorów polu z kalendarza 
         for(let w=0; w <  daysMonth ; w++){
 
             if( idx === 7){
@@ -30,7 +30,7 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
             //niedziele i soboty
             if( idx ===  0 || idx === 6){
                 
-                fields+= `<div id='${y}-${month +1 }-${(w+1)}' class='saturdayOrSunday'></div>`;
+                fields+= `<div id='${y}-${month +1 }-${(w+1)}' class='saturdayOrSunday '></div>`;
             }
             else{
                 fields+= `<div id="${y}-${month +1 }-${(w+1)}" ></div>`;
@@ -39,19 +39,41 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
             idx ++;
         }
             
-    let calenderFields = document.querySelector('.fieldsWorker');
-    let fieldCalenderWorker = "";
-
 
     //
     //bedzie potrzebna liczba pracowników z bazy do petli aby wygeberować odpowiednio liczbę kratek
     //
+     //lista pracowników
+    const list = document.querySelector('.list');
+    let row_list ='';
+    let calenderFields = document.querySelector('.fieldsWorker');
+    let fieldCalenderWorker = "";
     for(let fw=0; fw < numberOfEmployees; fw++)
     {
-        fieldCalenderWorker+=`<div id='${fw}' class='d-flex justify-content-between fieldDays'> ${fields}</div>`;
+        //lisat pracowników
+        row_list += '<div class="d-flex bd-highlight border-top list-employees">'+
+                        `<div class=" mr-auto  name-and-last-name "> <a href='${url}/calendar/edit_employee'>${employees_array[fw].name} ${employees_array[fw].last_name}</a> </div>`+
+                        `<div class=" bd-highlight  holidays d-none d-lg-block pula ">${employees_array[fw].number_free_days} </div>`+
+                        `<div class="bd-highlight holidays d-none d-lg-block diffrence_days"> ${employees_array[fw].number_free_days - employees_array[fw].days_used}</div>`+
+                        `<div class=" bd-highlight d-none d-lg-block  holidays days-left"> ${employees_array[fw].days_used}</div>`+
+                    `</div>`;
+        list.innerHTML=row_list;
+
+        // pola kalendarza
+        fieldCalenderWorker+=`<div id='${fw}' class='d-flex justify-content-between  fieldDays' > ${fields}</div>`;
         calenderFields.innerHTML = fieldCalenderWorker;
     }
 
+    const nameAndLastname = document.querySelectorAll('.name-and-last-name');
+    //po kliknieciu przenosi na strone edycji pracownika
+    // nameAndLastname.forEach(el=>{
+    //     el.addEventListener('click',function(){
+    //         console.log(`${url}/calendar/edit_employee`);
+    //         let var_name = el.innerHTML;
+    //         el.innerHTML = `<a href='${url}/calendar/edit_employee'>${var_name}`;
+    //         console.log(var_name);
+    //     });
+    // })
     //pobieramy wszystkie pola kalendarza
     let calender = document.querySelectorAll(".fieldsWorker .fieldDays div");
 
@@ -66,6 +88,8 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
     //showChoiceFields(holidays_array);
     //console.log(holidays_array);
     //aktywne pola kalendarza
+
+
     if(activFields === true){
         //po kliknieciu na pole zmieni się kolor
         changeFieldColor(calender,arrayChoiceDay);
@@ -73,21 +97,27 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
         //showChoiceFields();
         //wyswietlenie zaznaczonych pol 
         showChoiceFields(arrayChoiceDay);
-
+        //createJSON();
+        console.log(dataToBeAdded);
+        console.log(dataToBeDeleted);
         const btn_save = document.querySelector('#btn-save-calendar');
-        //porównanie tablic 
-        btn_save.addEventListener('click',function(){
-                    //const toAdd = [];  // tablica z obiektami do dodania do bazy danych 
-                    //const toDelete = [];  // do susnięcy
-                    //const tmp = [];
-                
-            console.log('jestem tu');
+        //przesłanie tablicy za pomocą formularza
+        document.querySelector('#btn-save-calendar').addEventListener('click',function(){
             createJSON();
-            //console.log(document.writeln(JSON.stringify( dataToBeAdded)));
-            console.log(arrayChoiceDay);
-            jsToPhp(dataToBeDeleted, dataToBeAdded);
-        });
-
+            // const array = {
+            //     'deleted': dataToBeDeleted,
+            //     'added': dataToBeAdded
+            // }
+            const inp = document.querySelector('#hidden');
+            inp.setAttribute("value", JSON.stringify(
+                {
+                    'deleted': dataToBeDeleted,
+                    'added': dataToBeAdded
+                }
+            ));
+            console.log('hidden input');
+            console.log(inp);
+        })
     }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -298,21 +328,21 @@ const createJSON = ()=>{
 
     dataToBeDeleted = toDelate;
 
-    // uzupelnienie obiektów znajdujących się w tablicy o wartośc atrybutu - id_user
-    for(let i=0; i< employees_array.length; i++){
-        for(let j=0; j< dataToBeDeleted.length; j++){
-            if( employees_array[i].id_row === dataToBeDeleted[j].id_row){
-                dataToBeDeleted[j].id_user = employees_array[i].id_user ;
-                break;
-            }
-        }
-        for(let j=0; j< dataToBeAdded.length; j++){
-            if( employees_array[i].id_row === dataToBeAdded[j].id_row){
-                dataToBeAdded[j].id_user = employees_array[i].id_user ;
-                break;
-            }
-        }
-    }
+    // // uzupelnienie obiektów znajdujących się w tablicy o wartośc atrybutu - id_user
+    // for(let i=0; i< employees_array.length; i++){
+    //     for(let j=0; j< dataToBeDeleted.length; j++){
+    //         if( employees_array[i].id_row === dataToBeDeleted[j].id_row){
+    //             dataToBeDeleted[j].id_user = employees_array[i].id_user ;
+    //             break;
+    //         }
+    //     }
+    //     for(let j=0; j< dataToBeAdded.length; j++){
+    //         if( employees_array[i].id_row === dataToBeAdded[j].id_row){
+    //             dataToBeAdded[j].id_user = employees_array[i].id_user ;
+    //             break;
+    //         }
+    //     }
+    // }
     console.log('dodane')
     console.log(dataToBeAdded);
     console.log('do usuniecia ');
@@ -320,6 +350,9 @@ const createJSON = ()=>{
 }
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 renderFieldsCalender(activFields, numberOfEmployees);
+

@@ -10,8 +10,6 @@
     } 
  
  ?>
-
-
 <script>
     let number_of_employees =  <?php  echo count($data);?>;
         //console.log(number_of_employees);
@@ -20,14 +18,14 @@
         let holidays_array_db =  <?php echo json_encode($holidays_array);?>;
         let employees_array =  <?php echo json_encode($data);?>;
         //console.log(holidays_array);
-    
+        console.log(employees_array);
     let url = '<?php echo base_url(); ?>';
     console.log(url);
 </script>
 
 
 <div class="calendar-main ">
-    <div class='row  mt-3 mr-5 ml-5 d-flex text-center  '>
+    <div class='row   mr-5 ml-5 d-flex text-center  '>
     <h1> <?=esc($title)?></h1>
     </div>
     <div class="row mx-5 mt-0 mb-3">
@@ -39,7 +37,7 @@
                     <div class="d-flex justify-content-between  py-2 align-items-center">
                         <!-- prev-->
                         <i class="fas fa-angle-left  prev "></i>
-                        <div class="data">
+                        <div class="data ">
                             <h1>May</h1>
                         </div>
                          <!-- next -->
@@ -82,28 +80,40 @@
             
             <div class="row">
                  <!-- lista pracowników -->
-                <div class="col-lg-4 col-3  hol " >
+                <div class="col-lg-4 col-3  hol list " >
                     
-                    <?php
-                    foreach($data as $emp):?>
+                    <!-- <?php //$_SESSION['me']='Karolina';
+                    //foreach($data as $emp):?>
                     <div class="d-flex bd-highlight border-top">
-                        <div class=" mr-auto bd-highlight  list-employees"> 
-                            <form action="/calendar/edit_employee" method='post'>   
-                                    <input id="prodId" name="id_employee" type="hidden" value="<?php echo $emp['id_user']; ?>">
-                                    <button type="submit" class="btn my-btn"><?php echo $emp['name'].' '.$emp['last_name']; ?></button>
-                             <form>
+                        <div class=" mr-auto bd-highlight  list-employees">  
+                                    <input id="prodId" name="id_employee" type="hidden" value="<?php// echo $emp['id_user'];
+
+                                     ?>">
+                                    <a  class="btn my-btn " href='<?php //base_url()?>/calendar/edit_employee' ><?php //echo $emp['name'].' '.$emp['last_name']; ?></a>
                         </div>
                         
-                        <div class=" bd-highlight  holidays d-none d-lg-block"> <?=$emp['number_free_days'] ?></div>
-                        <div class="bd-highlight holidays d-none d-lg-block"> <?=$emp['days_used']?> </div>
-                        <div class=" bd-highlight d-none d-lg-block  holidays"><?=$emp['number_free_days'] - $emp['days_used']?></div>
+                        <div class=" bd-highlight  holidays d-none d-lg-block"> <?php //$emp['number_free_days'] ?></div>
+                        <div class="bd-highlight holidays d-none d-lg-block"> <?php //$emp['days_used']?> </div>
+                        <div class=" bd-highlight d-none d-lg-block  holidays"><?php //$emp['number_free_days'] - $emp['days_used']?></div>
                     </div>
-                    <?php endforeach;?>
+                    <?php// endforeach;?> -->
+                    <div class="d-flex bd-highlight border-top list-employees">
+                        <div class=" mr-auto bd-highlight name-and-last-name ">  
+                            lista pracownikow
+                                    <!-- <input id="prodId" name="id_employee" type="hidden" value="<?php //echo $emp['id_user']; ?>-->
+                            <!-- <a  class="btn my-btn " href='<?php //base_url()?>/calendar/edit_employee' >lista prac </a> -->
+                        </div>
+                        
+                        <div class=" bd-highlight  holidays d-none d-lg-block pula "> 12</div>
+                        <div class="bd-highlight holidays d-none d-lg-block diffrence_days"> 2 </div>
+                        <div class=" bd-highlight d-none d-lg-block  holidays days-left">10</div>
+                    </div>
+                    
                    
                 </div>
                 <!-- pola do wyboru -->
-                <div class="col-lg-8 col-9 bg-danger fieldsWorker">
-                    <div class="d-flex justify-content-between fieldDays"> 
+                <div class="col-lg-8 col-9 bg-danger  fieldsWorker">
+                    <div class="d-flex justify-content-between  border border-dark  "> 
                             
                     </div>
                 </div>         
@@ -111,22 +121,19 @@
              <!-- koniec kalendarza -->
         </div>
     </div>
-    <div class="row mx-5  my-3">
+    <div class="row mx-5  my-3 button-save">
         <!-- <div class="col-12"> -->
-            <button id='btn-save-calendar' type="button" class="btn btn-primary btn-lg btn-block ">Zapisz</button>
+            <form action="/calendar" method='post'>
+                <input id="hidden" name="array" type="hidden" value="xm234jq">
+                <button id='btn-save-calendar' type="submit" class="btn btn-primary btn-lg btn-block "> Zapisz </button>
+    
+            </form>
+           
         <!-- </div> -->
     </div>
-    <div class="ok"></div>
-    
+
 </div>
-
-
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src='../js/calendar/calendarHorizontal.js'> </script>
 <script src='../js/calendar/calenederField.js'> </script> 
 <script src='../js/calendar/connection/ajax.js'> </script> 
-
-
-
-
-

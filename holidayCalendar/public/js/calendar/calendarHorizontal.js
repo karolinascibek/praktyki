@@ -77,10 +77,10 @@ const displayDaysOfTheWeek =(date, weekdays , weekdays_array)=>{
             idx = 0;
         } 
         if( idx ===  0 || idx === 6){
-            weekdays_conta += `<div class='saturdayOrSunday'>${weekdays_array[idx]}</div>`;
+            weekdays_conta += `<div class='saturdayOrSunday' >${weekdays_array[idx]}</div>`;
         }
         else{
-            weekdays_conta += `<div>${weekdays_array[idx]}</div>`;
+            weekdays_conta += `<div  >${weekdays_array[idx]}</div>`;
         }
         idx ++;
 
@@ -113,6 +113,7 @@ document.querySelector(".prev").addEventListener("click", function(){
     date.setMonth(date.getMonth()-1);
     renderCalender();
     renderFieldsCalender(activFields, numberOfEmployees);
+
 });
 
 // przesunięcie na nastepne miesiące

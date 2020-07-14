@@ -16,17 +16,74 @@ class Calendar extends BaseController
             'username'  => 'frima1',
             'email'     => 'alicja@gmail.com',
             'logged_in' => TRUE,
-            'id_user'   => 1
+            'id_user'   => 2
         ];   
         $session->set($newdata);
         $id =$newdata['id_user'];
+        //var_dump($_SESSION);
 
         //przekierowanie na strone edycji
-        if($this->request->getMethod()=='POST'){
-            $session->set('id_employee',$_POST['id_employee']);
-            return redirect()->to("/blog");
-        }
+        //var_dump($_POST);
+        $request = \Config\Services::request();
+        if($this->request->getMethod()=='post'){
+            $prodID = $request->getPost();
+            //var_dump($prodID);
 
+            //------------------------------------------------------------------------- usunięcie i dodanie dat do bazy 
+
+            // pobranie osób do kalendarza
+            $employees =  $this->findEmployees($id);
+            if(is_array($employees)){
+                //pobranie z bazy 
+                $employees_db = $this->findEmployees($id);
+                $days = json_decode($_POST['array']);
+                //var_dump($employees_db);
+                $deleted_days = $days->deleted;
+                $added_days = $days->added;
+
+                //var_dump($deleted_days);
+                //var_dump($added_days);
+                ////------------------------------------- 
+                $i = 0;
+                $model = new HolidaysModel();
+                foreach($employees_db as $emDb){
+                    foreach($deleted_days as $deleted){
+                        if( (int)$deleted->id_row === $i ){
+                            //echo 'usuniety';
+                            $t = strtotime($deleted->id_day);
+                            //echo 'id: '.$deleted->id_day.'<br>';
+
+                            $date = date("Y-m-d",$t);
+                            //echo 'data do usniecia';
+                            //var_dump($date);
+                            $model->where(['id_employee'=> $emDb->id_employee ,'data' => $date])->delete();
+                            //var_dump($deleted);
+                        }
+                    }
+                    foreach($added_days as $added){
+                        if( (int)$added->id_row === $i ){
+                            //echo 'dodany';
+                            $daysToDb =[
+                                'data' => $added->id_day,
+                                'id_employee' => $emDb->id_employee
+                                
+                            ];
+                            $model->set($daysToDb);
+                            $model->insert();
+                            //var_dump($added);
+                        }
+                    }
+                    $i++;
+                }
+
+                //var_dump($array);
+            }
+
+
+
+            //-----------------------------------------------------------------------------
+
+        }
         $user = $this->getUser($id);
         $data = [
             'title'     => 'Kalendarz',
@@ -111,7 +168,9 @@ class Calendar extends BaseController
         $session = \Config\Services::session();
          //dane uzytkownika
          $id=$session -> get('id_user');
+         $s=$session->get('me');
          //dane uzytkownika
+         var_dump($_SESSION);
          $user = $this -> getUser($id);
 
         $data = [
@@ -126,7 +185,7 @@ class Calendar extends BaseController
 
             $employee_id = $session -> get('id_employee');
             $employess -> set('number_free_days',$_POST['pula'] ,FALSE);
-            $employess -> where('id_employee',$employee_id);
+            $employess ->where('id_employee',$employee_id);
             $employess -> update();
             echo 'puuuuuuuuuuuuuuuuuuuuuuuuuuula';
         }
@@ -139,19 +198,9 @@ class Calendar extends BaseController
         echo view('templates/footer', $data); 
     }
     //---------------------------------------------------------------- do bazy danych
-    private function getAllEmployees(){
-        $e = new EmployeeModel();
-        $t = $e->getAllForEmployer(2);
-
-		return $t;
-    }
     private function getUser($id){
         $user = new UserModel();
         return $user->findUser($id);
-    }
-    
-    private function addEmployee(){
-        //funkcja pobierająca dane nowego uzytkownika  i zapsisująca je w bazie 
     }
     private function findEmployees($id){
             // $model =  new EmployeeModel();
@@ -166,6 +215,7 @@ class Calendar extends BaseController
         return $model->findEmployeesVacation($id);    
     }
     //-----------------------------------------------------------------------------
+    //przygotowanie talicy dat do wysłania 
     private function createArrayDatesHolidays($employersHolidays, $employees){
         $holidays_array=[];
         $employees_array=[];
@@ -174,13 +224,13 @@ class Calendar extends BaseController
         $i=0;
         foreach($employees as $e){
             foreach($employersHolidays as $h){
-                if($e->id_employee === $h->id_employee){
-
-                    $t = strtotime($h->data);
+                if($e->id_employee === $h ->id_employee){
+                    //var_dump($h->data);
+                    $t = strtotime($h ->data);
                     $ob=[ 
-                        'id_row'=>"$i",
-                        'id_day'=>date("Y-n-j",$t),
-                        'id_user'=>$h->id_employee,
+                        'id_row'  => "$i",
+                        'id_day'  => date("Y-n-j",$t),
+                        'id_user' => $h ->id_employee,
                     ];
                     //var_dump([ $e->id_user , $h->id_user]);
                     $holidays_array[$how] = $ob;
@@ -188,24 +238,23 @@ class Calendar extends BaseController
                 }
             }
             $emp=[
-            'id_user'=>$e->id_employee,
-            'id_row'=>"$i",
-            'name'  =>$e->name,
-            'last_name'=>$e->last_name,
-            'number_free_days'=>$e->number_free_days,
-            'days_used'=>$e->days_used,
+            'id_user'         => $e ->id_employee,
+            'id_row'          => $i,
+            'name'            => $e ->name,
+            'last_name'       => $e ->last_name,
+            'number_free_days'=> $e ->number_free_days,
+            'days_used'       => $e ->days_used,
             ];   
-            $employees_array[$i]=$emp;
+            $employees_array[$i] = $emp;
             $i++;
         }
 
         return [
-            'holidays'=>$holidays_array,
-            'employees'=>$employees_array,
+            'holidays' => $holidays_array,
+            'employees'=> $employees_array,
         ];
     }
-
-
-	//--------------------------------------------------------------------
+    //--------------------------------------------------------------------
+    
 
 }

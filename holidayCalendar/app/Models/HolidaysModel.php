@@ -5,15 +5,15 @@ use CodeIgniter\Model;
 class HolidaysModel extends Model{
 
     
-    protected $table      = 'holidays';
+    protected $table      = 'holiday';
     protected $primaryKey = 'id';
 
     //protected $returnType     = 'array';
     //protected $useSoftDeletes = true;
 
-    //protected $allowedFields = ['name','last_name' ,'eamil'];
+    protected $allowedFields = ['id_employee','data' ];
 
-    protected $useTimestamps = true;
+    //protected $useTimestamps = true;
     //protected $createdField  = 'data_created';
     //protected $updatedField  = 'data_updated';
     //protected $deletedField  = 'deleted_at';

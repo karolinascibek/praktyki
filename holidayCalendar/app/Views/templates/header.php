@@ -1,5 +1,6 @@
-<?php  header("Access-Control-Allow-Origin: *");?>
+<?php header('Access-Control-Allow-Origin: *');?>
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,25 +17,27 @@
     <title><?=esc($title)?></title>
 </head>
 <body>
+<div class='main'>
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+   <div class="container mx-4">
+    <a class="navbar-brand" href="<?php base_url()?>/calendar"> <i class="fas fa-calendar-alt"></i> Kalendarz</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light  ">
-  <a class="navbar-brand" href="<?php base_url()?>/calendar">Kalendarz</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?php base_url()?>/calendar/new_employee">Dodaj</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><?php echo $name.' '.$last_name ?></a>
+        </li>
+      </ul>
 
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="<?php base_url()?>/calendar/new_employee">Dodaj</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><?php echo $name.' '.$last_name ?></a>
-      </li>
-    </ul>
-
+    </div>
   </div>
 </nav>

@@ -12,7 +12,7 @@
     <form action='/calendar/edit_employee' method='post'>
         <div class="form-group">
             <label for="exampleInputEmail1">Usuń z listy</label>
-            <input type="hidden" class="form-control" name='delete' id="exampleInputEmail1" value="<?php echo $_SESSION['id_employee']?>">
+            <input type="hidden" class="form-control" name='delete' id="exampleInputEmail1" value="<?php// echo $_SESSION['id_employee']?>">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

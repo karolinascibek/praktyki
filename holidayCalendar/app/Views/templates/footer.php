@@ -1,5 +1,6 @@
-<div class='m-4 footer'>
+<div class='bg-warning footer'>
         stopka
+</div>
 </div>
 
 

@@ -1,26 +1,36 @@
 
-body{
-    min-width: 55rem;
+html, body {
+    margin:0;
+    padding:0;
+    height:100%;
     background-color: #EFEBE9;
+}
+.main{
+    height: 100%;
+    background-color: white;
+}
+.footer{
 }
 
 .calendar{
 
-    background-color: #EFEBE9;
+    background-color: white;
     box-shadow: 0.5rem 3rem rbga(0,0,0,4);
+
 
 }
 .calendar-main{
-    background-color: #EFEBE9;
-    margin-bottom: 10rem;
-    min-height: 100%;
+    background-color:  white;
+    padding-bottom: 5rem;
+
+
 }
 
 .weekdays{
 }
 
 .weekdays div{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     width: calc(100%/31);
     height: 3rem;
     justify-content: center;
@@ -38,7 +48,7 @@ body{
 
 .days div{
     border-left:0.1rem solid rgb(34, 3, 3) ;
-    font-size: 1.2rem;
+    font-size: 1.0rem;
     width: calc(100%/31);
     height: 3rem;
     display: flex;
@@ -50,7 +60,7 @@ body{
 }
 
 .fieldDays {
-    border-top:0.1rem solid black;
+    
 }
 
 .fieldDays div{
@@ -59,7 +69,7 @@ body{
     width: calc(100%/31);
     height: 3rem;
     display: flex;
-    /* background-color:#00ACC1 ; */
+    border-top:0.1rem solid black;
 }
 
 .saturdayOrSunday{
@@ -69,7 +79,6 @@ body{
 .holidays{
     font-size: 1rem;
     height: 3rem;
-
     text-align: center;
     align-items: center;
     width: calc(100%/6.5);
@@ -80,7 +89,6 @@ body{
 .h-days{
     font-size: 1rem;
     height: 3rem;
-
     text-align: center;
     align-items: center;
     width: calc(100%/3);
@@ -130,4 +138,7 @@ body{
 .my-btn{
     background: indigo;
 }
-
+.data{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
