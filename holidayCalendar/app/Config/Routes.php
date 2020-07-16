@@ -30,7 +30,14 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Home::index',['filter'=>'noauth']);
+$routes->get('logout', 'Employer::logout');
+$routes->match(['get','post'],'register_employer', 'Employer::register_employer',['filter'=>'noauth']);
+$routes->match(['get','post'],'login_employer', 'Employer::index',['filter'=>'noauth']);
+$routes->get('calendar','Calendar::index',['filter'=>'auth']);
+$routes->get('dashboard','Dashboard::index',['filter'=>'auth']);
+$routes->add('singleCalendar/(:num)', 'App\Dashboard::singleCalander/$1');
+
 
 /**
  * --------------------------------------------------------------------

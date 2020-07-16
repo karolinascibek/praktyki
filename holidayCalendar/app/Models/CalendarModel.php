@@ -2,16 +2,16 @@
 use CodeIgniter\Database\ConnectionInterface;
 
 use CodeIgniter\Model;
-class HolidaysModel extends Model{
+class CalendarModel extends Model{
 
     
-    protected $table      = 'holiday';
-    protected $primaryKey = 'id';
+    protected $table      = 'calendar';
+    protected $primaryKey = 'id_calendar';
 
     //protected $returnType     = 'array';
     //protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['id_employee','data','id_calendar' ];
+    protected $allowedFields = ['id_calendar','id_employer','name','code' ];
 
     //protected $useTimestamps = true;
     //protected $createdField  = 'data_created';

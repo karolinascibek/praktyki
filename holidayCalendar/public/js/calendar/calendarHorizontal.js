@@ -77,10 +77,10 @@ const displayDaysOfTheWeek =(date, weekdays , weekdays_array)=>{
             idx = 0;
         } 
         if( idx ===  0 || idx === 6){
-            weekdays_conta += `<div class='saturdayOrSunday' >${weekdays_array[idx]}</div>`;
+            weekdays_conta += `<div class='saturdayOrSunday' style="width: calc(100%/${lenghtMonth});" >${weekdays_array[idx]}</div>`;
         }
         else{
-            weekdays_conta += `<div  >${weekdays_array[idx]}</div>`;
+            weekdays_conta += `<div style="width: calc(100%/${lenghtMonth});" >${weekdays_array[idx]}</div>`;
         }
         idx ++;
 
@@ -97,7 +97,7 @@ const displayDaysOfTheMonth = ( monthDays ,date) => {
     let days = "";
     for(let i=1; i <= lenghtMonth; i++){
         //przypisanie dniom identyfikatora
-        days+=`<div id="${date.getFullYear()}-${date.getMonth()}-${i}">${i}</div>`;
+        days+=`<div id="${date.getFullYear()}-${date.getMonth()}-${i}" style="width: calc(100%/${lenghtMonth});">${i}</div>`;
         monthDays.innerHTML = days;
     }
     //console.log( monthDays);

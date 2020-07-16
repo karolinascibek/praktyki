@@ -11,7 +11,7 @@ class EmployeeModel extends Model{
     //protected $returnType     = 'array';
     //protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['id_employee','name','last_name' ,'email' , 'password','number_free_days','id_employer'];
+    protected $allowedFields = ['id_employee','name','last_name' ,'email' , 'password','number_free_days','id_employer', 'days_used'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'employee_data_created';

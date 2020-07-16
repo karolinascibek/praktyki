@@ -3,6 +3,8 @@ const numberOfEmployees = number_of_employees;
 const arrayChoiceDay = holidays_array;
 const arrayDB = holidays_array_db;  // zawartoć z db
 
+console.log(arrayDB);
+
 let dataToBeDeleted = [];
 let dataToBeAdded = [];
 
@@ -30,12 +32,13 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
             //niedziele i soboty
             if( idx ===  0 || idx === 6){
                 
-                fields+= `<div id='${y}-${month +1 }-${(w+1)}' class='saturdayOrSunday '></div>`;
+                fields+= `<div id='${y}-${month +1 }-${(w+1)}' class='saturdayOrSunday ' style="width: calc(100%/${daysMonth}");"></div>`;
             }
             else{
-                fields+= `<div id="${y}-${month +1 }-${(w+1)}" ></div>`;
+                fields+= `<div id="${y}-${month +1 }-${(w+1)}" style="width: calc(100%/${daysMonth});" ></div>`;
             }
             //calenderFields.innerHTML = fields;
+            
             idx ++;
         }
             
@@ -51,11 +54,11 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
     for(let fw=0; fw < numberOfEmployees; fw++)
     {
         //lisat pracowników
-        row_list += '<div class="d-flex bd-highlight border-top list-employees">'+
-                        `<div class=" mr-auto  name-and-last-name "> <a href='${url}/calendar/edit_employee'>${employees_array[fw].name} ${employees_array[fw].last_name}</a> </div>`+
-                        `<div class=" bd-highlight  holidays d-none d-lg-block pula ">${employees_array[fw].number_free_days} </div>`+
-                        `<div class="bd-highlight holidays d-none d-lg-block diffrence_days"> ${employees_array[fw].number_free_days - employees_array[fw].days_used}</div>`+
-                        `<div class=" bd-highlight d-none d-lg-block  holidays days-left"> ${employees_array[fw].days_used}</div>`+
+        row_list += '<div class="d-flex bd-highlight  border-top list-employees">'+
+                        `<div class=" mr-auto  pl-2 name-and-last-name "> <a  href='${url}:8080/calendar/edit_employee'>${employees_array[fw].name} ${employees_array[fw].last_name}</a> </div>`+
+                        `<div class=" bd-highlight   d-none d-lg-block  holidays pula ">${employees_array[fw].number_free_days} </div>`+
+                        `<div class="bd-highlight   d-none d-lg-block diffrence_days holidays"> ${employees_array[fw].days_used}</div>`+
+                        `<div class=" bd-highlight d-none   d-lg-block  holidays days-left">${employees_array[fw].number_free_days - employees_array[fw].days_used}</div>`+
                     `</div>`;
         list.innerHTML=row_list;
 
@@ -97,9 +100,10 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
         //showChoiceFields();
         //wyswietlenie zaznaczonych pol 
         showChoiceFields(arrayChoiceDay);
-        //createJSON();
-        console.log(dataToBeAdded);
-        console.log(dataToBeDeleted);
+        createJSON();
+        //console.log(arrayChoiceDay);
+        //console.log(dataToBeAdded);
+        //console.log(dataToBeDeleted);
         const btn_save = document.querySelector('#btn-save-calendar');
         //przesłanie tablicy za pomocą formularza
         document.querySelector('#btn-save-calendar').addEventListener('click',function(){
@@ -115,7 +119,7 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
                     'added': dataToBeAdded
                 }
             ));
-            console.log('hidden input');
+            //console.log('hidden input');
             console.log(inp);
         })
     }
@@ -154,8 +158,8 @@ const displayFreeDays =(calender)=>{
 // zmiana kolor dla wybranego pola i zapisnie go w tablicy
 //
 
-console.log(employees_array);
-console.log(holidays_array_db);
+//console.log(employees_array);
+//console.log(holidays_array_db);
 const changeFieldColor =(calender,arrayChoiceDay)=>{
     calender.forEach(day =>{
         //wiersz
@@ -187,7 +191,9 @@ const changeFieldColor =(calender,arrayChoiceDay)=>{
                 }
                 
             });
+            //console.log(arrayChoiceDay);
         });
+        console.log('wybory');
 }
 
 
@@ -296,6 +302,7 @@ const createJSON = ()=>{
     const toAdd=[];
 
     //zawarte w choiceDay ale nie w holidays_array_db
+    console.log(arrayChoiceDay);
     const inArrayChoiceDays=[];
     for(let i =0; i < arrayChoiceDay.length ; i++){
         let equal=false;

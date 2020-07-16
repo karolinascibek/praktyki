@@ -1,13 +1,9 @@
 
-<?php if(isset($validation)):?>
-    <div>
-        <?=$validation->listerrors(); ?>
-        <?= form_open( base_url().`/calendar/new_employee`) ?>
-    </div>
-<?php endif ;?>
 <div class="container">
-<h1>Dodaj pracownika </h1>
-<form action='/calendar/new_employee' method='post'>
+<h1>Zarejestruj się  </h1>
+pracownik
+<form action='/hom/register_employee' method='post'>
+
    <div class="form-group">
     <label for="name">Imie</label>
     <input type="text" class="form-control" name='name'id="name" aria-describedby="emailHelp">
@@ -28,10 +24,6 @@
   <div class="form-group">
     <label for="exampleInputPassword2">Powtórz hasło </label>
     <input type="password"  name = 'password_confirm'class="form-control" id="exampleInputPassword2">
-  </div>
-  <div class="form-group">
-    <label for="holidays">Ile dni urlopu przysługuje?</label>
-    <input type="text"  name = 'number_free_days'class="form-control" id="holidays">
   </div>
   <button type="submit" class="btn btn-primary">Zapisz</button>
 </form>

@@ -7,26 +7,42 @@ class Employee extends BaseController
 {
 	public function index()
 	{
-		$db=db_connect();
-		$model = new CustomModel($db);
-		echo '<prev>';
-		//var_dump( );
-		echo '</prev>';
-		$data = [
-			'meta_title'=>'CodeIgniter 4 Blog Dynamic',
-			'title'=>'this is a title page',
-		];
+		// $db=db_connect();
+		// $model = new CustomModel($db);
+		// echo '<prev>';
+		// //var_dump( );
+		// echo '</prev>';
+		// $data = [
+		// 	'meta_title'=>'CodeIgniter 4 Blog Dynamic',
+		// 	'title'=>'this is a title page',
+		// ];
 
-		$posts = [
-			'title','title 2','title 3'
-		];
-		$data['posts']=$posts;
-		echo 'emplo';
+		// $posts = [
+		// 	'title','title 2','title 3'
+		// ];
+		// $data['posts']=$posts;
+		// echo 'emplo';
 
-		//return view('blog', $data);
+		// //return view('blog', $data);
 
 
 	}
+
+	public function login_employee()
+	{
+		echo view('Home/templates/header');
+		echo view('Employee/login_employee');
+		echo view('Home/templates/footer');
+	}
+	
+	public function register_employee()
+	{
+		echo view('Home/templates/header');
+		echo view('Employee/registration_employee');
+		echo view('Home/templates/footer');
+	}
+
+
 	public function getAllEmployees(){
 		$db=db_connect();
 		$model = new CustomModel($db);

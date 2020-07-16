@@ -24,10 +24,11 @@
 </script>
 
 
-<div class="calendar-main ">
-    <div class='row   mr-5 ml-5 d-flex text-center  '>
-    <h1> <?=esc($title)?></h1>
+<div class="calendar-main  ">
+    <div class='row   mx-5  my-3 d-flex text-center  '>
+        <h1> <?=esc($title)?></h1>
     </div>
+    <hr>
     <div class="row mx-5 mt-0 mb-3">
         <!-- kalendarz -->
         <div class="col-lg-12  calendar">
@@ -38,7 +39,7 @@
                         <!-- prev-->
                         <i class="fas fa-angle-left  prev "></i>
                         <div class="data ">
-                            <h1>May</h1>
+                            <h1> </h1>
                         </div>
                          <!-- next -->
                         <i class="fas fa-angle-right next"></i>
@@ -51,7 +52,7 @@
                 <div class="col-lg-4  col-3  ">
 
                 </div>
-                <div class="col-lg-8 bg-success  col-9 month-days-header">
+                <div class="col-lg-8 bg-success  col-9 m-0 p-0  month-days-header">
                     <div class="d-flex justify-content-between days">
                                          
                     </div>   
@@ -59,28 +60,28 @@
             </div> 
 
             <!-- dni dwie kolumny z lista pracowników i polami kalendarza -->
-            <div class="row ">
+            <div class="row  ">
                  <!-- nagłowek dla pracowników -->
-                 <div class="col-lg-4 col-3 bg-info " >                      
-                        <div class="d-flex bd-highlight  ">
-                            <div class=" mr-auto bd-highlight  ">  Imie i nazwisko </div>
-                            <div class=" bd-highlight  border-left holidays d-none d-lg-block"> D</div>
-                            <div class="bd-highlight holidays border-left d-none d-lg-block">W</div>
-                            <div class=" bd-highlight  border-left d-none d-lg-block holidays">Z</div>
+                 <div class="col-lg-4 col-3 bg-info p-0  " >                      
+                        <div class="d-flex justify-content-between header bd-highlight  ">
+                            <div class=" mr-auto bd-highlight pl-2 ">  Imie i nazwisko </div>
+                            <div class=" bd-highlight border-left border-right border-dark  holidays d-none d-lg-block"> P</div>
+                            <div class="bd-highlight holidays border-right border-dark  d-none d-lg-block">W</div>
+                            <div class=" bd-highlight  d-none d-lg-block holidays">Z</div>
                         </div>
         
                 </div>
                 <!-- dni tygodnia -->
-                <div class="col-lg-8 col-9 bg-warning month">
+                <div class="col-lg-8 col-9 bg-warning m-0 p-0 border-top border-dark month">
                     <div class="d-flex justify-content-between weekdays"> 
                            
                     </div>
                 </div>
             </div>
             
-            <div class="row">
+            <div class="row border-bottom">
                  <!-- lista pracowników -->
-                <div class="col-lg-4 col-3  hol list " >
+                <div class="col-lg-4 col-3  hol list  p-0 pl" >
                     
                     <!-- <?php //$_SESSION['me']='Karolina';
                     //foreach($data as $emp):?>
@@ -99,7 +100,7 @@
                     <?php// endforeach;?> -->
                     <div class="d-flex bd-highlight border-top list-employees">
                         <div class=" mr-auto bd-highlight name-and-last-name ">  
-                            lista pracownikow
+                            Lista pracownikow
                                     <!-- <input id="prodId" name="id_employee" type="hidden" value="<?php //echo $emp['id_user']; ?>-->
                             <!-- <a  class="btn my-btn " href='<?php //base_url()?>/calendar/edit_employee' >lista prac </a> -->
                         </div>
@@ -112,8 +113,8 @@
                    
                 </div>
                 <!-- pola do wyboru -->
-                <div class="col-lg-8 col-9 bg-danger  fieldsWorker">
-                    <div class="d-flex justify-content-between  border border-dark  "> 
+                <div class="col-lg-8 col-9 bg-dark  m-0 p-0 fieldsWorker">
+                    <div class="d-flex justify-content-between  border-top border-dark fieldDays "> 
                             
                     </div>
                 </div>         
@@ -121,15 +122,17 @@
              <!-- koniec kalendarza -->
         </div>
     </div>
-    <div class="row mx-5  my-3 button-save">
-        <!-- <div class="col-12"> -->
-            <form action="/calendar" method='post'>
+    <br>
+    <hr>
+    <div class="row mx-5  my-5   d-flex justify-content-end button-save">
+        <div class="col-12 p-0" >
+            <form action="/calendar"  class='' method='post'>
                 <input id="hidden" name="array" type="hidden" value="xm234jq">
-                <button id='btn-save-calendar' type="submit" class="btn btn-primary btn-lg btn-block "> Zapisz </button>
+                <button id='btn-save-calendar' type="submit" class="btn btn-primary btn-lg  btn-block "> Zapisz </button>
     
             </form>
            
-        <!-- </div> -->
+        </div>
     </div>
 
 </div>

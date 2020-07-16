@@ -3,6 +3,7 @@ use App\Models\CustomModel;
 use App\Models\EmployeeModel;
 use App\Models\UserModel;
 use App\Models\HolidaysModel;
+use App\Models\CalendarModel;
 
 
 class Calendar extends BaseController
@@ -10,20 +11,38 @@ class Calendar extends BaseController
 
 	public function index()
 	{
-        $session = \Config\Services::session();
+        $session = session();
+        $id_cal = $session->get('id_calendar');
 
-        $newdata = [
-            'username'  => 'frima1',
-            'email'     => 'alicja@gmail.com',
-            'logged_in' => TRUE,
-            'id_user'   => 2
-        ];   
-        $session->set($newdata);
-        $id =$newdata['id_user'];
+
+        $cal = new CalendarModel();
+        $cal = $cal->find($id_cal);
+        //var_dump($cal);
+        $data = [
+			'id' => $session->get('id'),
+			'name'=>  $session->get('name'),
+			'last_name'=> $session->get('last_name'),
+			'email'=>  $session->get('email'),
+            'isLoggedIn'=>true,
+            'title'     => $cal['name'],
+            'styles'    => 'calendar',
+		];
+		$session = session();
+        $session->set($data);
+        
+        $model_employees = new EmployeeModel();
+
+        //$model = new Calendar();
+
+
+        $id =$data['id'];
         //var_dump($_SESSION);
 
         //przekierowanie na strone edycji
         //var_dump($_POST);
+        $db=db_connect();
+            $model = new CustomModel($db);
+            //echo $id_cal.' // ';
         $request = \Config\Services::request();
         if($this->request->getMethod()=='post'){
             $prodID = $request->getPost();
@@ -32,12 +51,17 @@ class Calendar extends BaseController
             //------------------------------------------------------------------------- usunięcie i dodanie dat do bazy 
 
             // pobranie osób do kalendarza
-            $employees =  $this->findEmployees($id);
+            
+            $employees = $model->findEmployessForCalendar(session()->get('id_calendar'));
+            //var_dump($employees);
+
+            //$employees =  $this->findEmployees($id);--
             if(is_array($employees)){
                 //pobranie z bazy 
+                //$employees_db = $this->findEmployees($id);--
                 $employees_db = $this->findEmployees($id);
                 $days = json_decode($_POST['array']);
-                //var_dump($employees_db);
+                //var_dump($days);
                 $deleted_days = $days->deleted;
                 $added_days = $days->added;
 
@@ -46,7 +70,8 @@ class Calendar extends BaseController
                 ////------------------------------------- 
                 $i = 0;
                 $model = new HolidaysModel();
-                foreach($employees_db as $emDb){
+                foreach($employees as $emDb){
+                    $counter = 0;
                     foreach($deleted_days as $deleted){
                         if( (int)$deleted->id_row === $i ){
                             //echo 'usuniety';
@@ -56,8 +81,9 @@ class Calendar extends BaseController
                             $date = date("Y-m-d",$t);
                             //echo 'data do usniecia';
                             //var_dump($date);
-                            $model->where(['id_employee'=> $emDb->id_employee ,'data' => $date])->delete();
+                            $model->where(['id_employee'=> $emDb->id_employee ,'data' => $date,'id_calendar'=> session()->get('id_calendar')])->delete();
                             //var_dump($deleted);
+                            $counter--;
                         }
                     }
                     foreach($added_days as $added){
@@ -65,38 +91,53 @@ class Calendar extends BaseController
                             //echo 'dodany';
                             $daysToDb =[
                                 'data' => $added->id_day,
-                                'id_employee' => $emDb->id_employee
+                                'id_employee' => $emDb->id_employee,
+                                'id_calendar' => $id_cal
                                 
                             ];
-                            $model->set($daysToDb);
-                            $model->insert();
+                            $model->save($daysToDb);
+                            $counter++;
+                            // $model->set($daysToDb);
+                            // $model->insert();
                             //var_dump($added);
                         }
                     }
+                    //aktualizajca dla pracownika 
+                    $updateEmpl = new EmployeeModel();
+                    $changeEmpl=$updateEmpl->find($emDb->id_employee);
+                    $changeEmpl['days_used'] = $counter;
+                    var_dump($changeEmpl);
+                    $updateEmpl->save($changeEmpl);
+
                     $i++;
                 }
-
-                //var_dump($array);
             }
-
-
-
             //-----------------------------------------------------------------------------
 
         }
-        $user = $this->getUser($id);
-        $data = [
-            'title'     => 'Kalendarz',
-            'styles'    => 'calendar',
-            'last_name' => $user['last_name'],
-            'name'      => $user['name'],
-            'user_name' => $user['user_name']
-        ];
+        //$user = $this->getUser($id);
         // pobranie osób do kalendarza
-        $employees =  $this->findEmployees($id);
-        if(is_array($employees)){
-           $employersHolidays = $this->findEmployeesHolidays($id);
-           $array=$this->createArrayDatesHolidays($employersHolidays, $employees);
+        //$employees =  $this->findEmployees($id);
+        $db=db_connect();
+        $model = new CustomModel($db);
+
+        $employees_model = $model->findEmployessForCalendar(session()->get('id_calendar'));
+       // var_dump($employees_model);
+       // var_dump($data);
+        if(is_array($employees_model)){
+           //$employersHolidays = $this->findEmployeesHolidays($id);
+           //var_dump($employees);
+           //var_dump($employersHolidays);
+           //$array=$this->createArrayDatesHolidays($employersHolidays, $employees);
+
+           //--------------------------------------------------------------------------------
+            
+            //var_dump($employees_model);
+            $model2 = new CustomModel($db);
+            $holidays_model = $model2->findHolidaysEmployees(session()->get('id_calendar'));
+            //var_dump($holidays_model);
+            //-----------------------------------------------------------------------------------
+           $array=$this->createArrayDatesHolidays($holidays_model, $employees_model);
            $data['employees'] = $array['employees'];
            $data['holidays']  = $array['holidays'];
            //var_dump($array);
@@ -104,9 +145,10 @@ class Calendar extends BaseController
         echo view('templates/header', $data);
 
         // gdy nie ma jeszcze dodanego zadnego pracownika do kalendarza
-        if( is_array($employees) && count($employees) == 0){
+        //if( is_array($employees) && count($employees) == 0){
+        if( is_array($employees_model) && count($employees_model) == 0){
 
-            echo view('createCalendar', $data);
+            echo view('empty_calendar', $data);
         }
         else{
             //var_dump($data);
@@ -118,6 +160,8 @@ class Calendar extends BaseController
     public function new_employee(){
         $session = \Config\Services::session();
         $id=$session->get('id_user');
+
+        helper(['form', 'url']);
 
         $data = [
             'title'  =>'Add',
@@ -132,10 +176,12 @@ class Calendar extends BaseController
 
         if($this->request->getMethod() == 'post'){
             $rules=[
-                'name'     =>'required',
-                'last_name'=>'required',
-                'email'    =>'required',
-                'password' =>'required'
+                'name'     => [ 'label' => 'Name', 'rules'     =>'required'],
+                'last_name'=> ['label'  => 'Nazwisko', 'rules' => 'required'],
+                'email'    => ['label'  => 'Adres email','rules'=>'required|valid_email'],
+                'password' => ['label'  => 'Hasło', 'rules'     => 'required|min_length[7]'],
+                'password_confirm' => ['label'  => 'Hasło', 'rules'     => 'required|matches[password]'],
+                'number_free_days' => ['label'  => 'Liczba dni', 'rules'     => 'required|is_natural'],
             ];
             if($this->validate($rules)){
                     $model = new EmployeeModel();
@@ -150,9 +196,10 @@ class Calendar extends BaseController
                     // dodanie do tabeli employees
                     $model->set($user);
                     $model->insert();
-                    var_dump($user);
-
-                //return redirect()->to('/Calendar');
+                    //var_dump($user);
+                
+                // 
+                return redirect()->to('/Calendar');
             }
             else{
                 $data['validation']=$this->validator;
