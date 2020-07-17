@@ -20,7 +20,7 @@ class Employer extends BaseController
 				'password' => [
 					'validateUser' => 'Email lub hasło jest niepoprawne',
 				],
-				'eamil' => [
+				'email' => [
 					'required' => 'Pole adres email nie może być puste.',
 				],
 			];
@@ -55,6 +55,7 @@ class Employer extends BaseController
 			'last_name'=> $user['last_name'],
 			'email'=> $user['email'],
 			'isLoggedIn'=>true,
+			'isEmployer'=>true,
 		];
 		$session = session();
 		$session->set($data);
@@ -94,6 +95,12 @@ class Employer extends BaseController
 		}
 		echo view('Home/templates/header');
 		echo view('Employer/registration_employer', $data);
+		echo view('Home/templates/footer');
+	}
+	public function  edit(){
+		
+		echo view('Home/templates/header');
+		echo 'Edycja Pracodawcy';
 		echo view('Home/templates/footer');
 	}
 	public function logout()

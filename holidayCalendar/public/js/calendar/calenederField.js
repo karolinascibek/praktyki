@@ -1,4 +1,4 @@
-const activFields = true;
+const activFields = isEmployer;
 const numberOfEmployees = number_of_employees;
 const arrayChoiceDay = holidays_array;
 const arrayDB = holidays_array_db;  // zawartoć z db
@@ -7,8 +7,6 @@ console.log(arrayDB);
 
 let dataToBeDeleted = [];
 let dataToBeAdded = [];
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const renderFieldsCalender=(activFields, numberOfEmployees)=>{
@@ -41,8 +39,6 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
             
             idx ++;
         }
-            
-
     //
     //bedzie potrzebna liczba pracowników z bazy do petli aby wygeberować odpowiednio liczbę kratek
     //
@@ -54,6 +50,7 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
     for(let fw=0; fw < numberOfEmployees; fw++)
     {
         //lisat pracowników
+        if(activFields){
         row_list += '<div class="d-flex bd-highlight  border-top list-employees">'+
                         `<div class=" mr-auto  pl-2 name-and-last-name "> <a  href='${url}:8080/calendar/edit_employee'>${employees_array[fw].name} ${employees_array[fw].last_name}</a> </div>`+
                         `<div class=" bd-highlight   d-none d-lg-block  holidays pula ">${employees_array[fw].number_free_days} </div>`+
@@ -61,9 +58,10 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
                         `<div class=" bd-highlight d-none   d-lg-block  holidays days-left">${employees_array[fw].number_free_days - employees_array[fw].days_used}</div>`+
                     `</div>`;
         list.innerHTML=row_list;
+        }
 
         // pola kalendarza
-        fieldCalenderWorker+=`<div id='${fw}' class='d-flex justify-content-between  fieldDays' > ${fields}</div>`;
+        fieldCalenderWorker+=`<div id='${fw}' class='d-flex justify-content-between  fieldDays '  > ${fields}</div>`;
         calenderFields.innerHTML = fieldCalenderWorker;
     }
 
@@ -87,6 +85,7 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
     // wyswietlenie dni wolnych od pracy pobranych z bazy danych
     //console.log(calender2);
     displayFreeDays(calender2);
+    showChoiceFields(arrayChoiceDay);
     //console.log(arrayChoiceDay);
     //showChoiceFields(holidays_array);
     //console.log(holidays_array);
@@ -99,7 +98,7 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
             
         //showChoiceFields();
         //wyswietlenie zaznaczonych pol 
-        showChoiceFields(arrayChoiceDay);
+        //showChoiceFields(arrayChoiceDay);
         createJSON();
         //console.log(arrayChoiceDay);
         //console.log(dataToBeAdded);
@@ -170,8 +169,6 @@ const changeFieldColor =(calender,arrayChoiceDay)=>{
                 let ob_day = {
                     id_row: day.parentNode.id,
                     id_day:  day.id,
-                    id_user:'',
-                    
                 };
                 //console.log(ob);
                 if( !x ){
@@ -335,31 +332,10 @@ const createJSON = ()=>{
 
     dataToBeDeleted = toDelate;
 
-    // // uzupelnienie obiektów znajdujących się w tablicy o wartośc atrybutu - id_user
-    // for(let i=0; i< employees_array.length; i++){
-    //     for(let j=0; j< dataToBeDeleted.length; j++){
-    //         if( employees_array[i].id_row === dataToBeDeleted[j].id_row){
-    //             dataToBeDeleted[j].id_user = employees_array[i].id_user ;
-    //             break;
-    //         }
-    //     }
-    //     for(let j=0; j< dataToBeAdded.length; j++){
-    //         if( employees_array[i].id_row === dataToBeAdded[j].id_row){
-    //             dataToBeAdded[j].id_user = employees_array[i].id_user ;
-    //             break;
-    //         }
-    //     }
-    // }
     console.log('dodane')
     console.log(dataToBeAdded);
     console.log('do usuniecia ');
     console.log(dataToBeDeleted);
 }
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 renderFieldsCalender(activFields, numberOfEmployees);
-

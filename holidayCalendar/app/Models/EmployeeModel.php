@@ -16,11 +16,36 @@ class EmployeeModel extends Model{
     protected $useTimestamps = true;
     protected $createdField  = 'employee_data_created';
     protected $updatedField  = 'employee_data_updated';
+
+    protected $beforeInsert = ['beforeInsert'];
+    protected $beforeUpdate = ['beforeUpdate'];
+
     //protected $deletedField  = 'deleted_at';
 
     //protected $validationRules    = [];
     //protected $validationMessages = [];
     //protected $skipValidation     = false;
+
+    protected function passwordHash(array $data){
+        //haszowanie hasła
+        if(isset($data['data']['password'])){
+            $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+        }
+        return $data;
+    }
+    
+    protected function beforeInsert(array $data){
+        $data = $this->passwordHash($data);
+        return $data;
+    }
+    protected function beforeUpdate(array $data){
+        $data = $this->passwordHash($data);
+        return $data;
+    }
+
+
+
+
 
     public function getAll(){
         return $this->findAll();

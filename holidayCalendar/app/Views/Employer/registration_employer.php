@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row justify-content-md-center text-center">
     <div class="col-lg-7 my-4">
-      <h1>Zarejestruj się  </h1>
+      <h1>Zarejestruj się jako pracodawca  </h1>
       <hr>
     </div>
   </div>
@@ -45,7 +45,7 @@
 
     <div class="row justify-content-md-center text-center my-3">
       <div class="col-lg-7 ">
-        <button type="submit" class="btn btn-primary btn-md btn-block">Zapisz</button>
+        <button type="submit" class="btn btn-primary btn-md btn-block">Zarejestruj się </button>
          
       </div>
     </div>

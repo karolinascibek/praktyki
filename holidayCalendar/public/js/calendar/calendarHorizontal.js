@@ -1,5 +1,6 @@
 const date = new Date();
-
+let setYear = 2020
+//date.setFullYear(setYear);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -111,16 +112,20 @@ const displayDaysOfTheMonth = ( monthDays ,date) => {
 // przesunięcie na poprzednie miesiące
 document.querySelector(".prev").addEventListener("click", function(){
     date.setMonth(date.getMonth()-1);
-    renderCalender();
-    renderFieldsCalender(activFields, numberOfEmployees);
+    //if( setYear == date.getFullYear()){
+        renderCalender();
+        renderFieldsCalender(activFields, numberOfEmployees);
+    //}
 
 });
 
 // przesunięcie na nastepne miesiące
 document.querySelector(".next").addEventListener("click", function(){
     date.setMonth(date.getMonth()+1);
-    renderCalender();
-    renderFieldsCalender(activFields, numberOfEmployees);
+        //if( setYear == date.getFullYear()){
+        renderCalender();
+        renderFieldsCalender(activFields, numberOfEmployees);
+    //}
    
 });
 

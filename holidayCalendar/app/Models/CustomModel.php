@@ -32,7 +32,7 @@ class CustomModel{
         $bulider = $this ->db->table('calendar_employee')
                         ->where('id_calendar',$id_calendar)
                         ->join('employees','employees.id_employee = calendar_employee.id_employee')
-                        ->select('employees.id_employee ,name , last_name, number_free_days, days_used')
+                        ->select('employees.id_employee ,name , last_name, calendar_employee.number_free_days, calendar_employee.days_used')
                         ->get()->getResult();
         return $bulider;
     }
@@ -41,6 +41,13 @@ class CustomModel{
                         ->where('id_calendar',$id_calendar)
                         ->select('holiday.id_employee ,data ')
                         ->get()->getResult();
+        return $bulider;
+    }
+    function findCalendarEmployee($id_calendar, $id_employee){
+        $bulider = $this->db->table('calendar_employee')
+                            ->where(['id_employee'=>$id_employee, 'id_calendar'=>$id_calendar])
+                            ->get()
+                            ->getResult();
         return $bulider;
     }
 

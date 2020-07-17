@@ -59,7 +59,7 @@
                 <?php if(isset($calendars)): ?>
                     <?php $i = 1; ?>
                     <?php foreach($calendars as $calendar): ?>
-                        <a href='<?=base_url()?>/Dashboard/singleCalendar/<?=$i?>' class="list-group-item list-group-item-action"><?php echo $calendar->name ?></a>
+                        <a href='<?=base_url()?>/Dashboard/mycalendar/<?=$i?>' class="list-group-item list-group-item-action"><?php echo $calendar->name ?></a>
                     <?php $i++ ; ?>
                     <?php endforeach ?>
                 <?php endif;?>

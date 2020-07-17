@@ -18,13 +18,10 @@ html, body {
     background-color: white;
     box-shadow: 0.5rem 3rem rbga(0,0,0,4);
     min-width: 55rem;
-
-
 }
 .calendar-main{
     background-color:  white;
     padding-bottom: 5rem;
-
 
 }
 
@@ -104,7 +101,9 @@ html, body {
     font-size: 1rem;
     /* background-color: #CCCCFF; */
 }
-
+.prev ,.next{
+    font-size: 2rem;
+}
 .prev:hover{
     color: white;
 }
@@ -181,4 +180,25 @@ html, body {
 }
 .days-left{
     text-align: center;
+}
+.employee-calendar-field div{
+    min-height: 5rem;
+}
+
+.colors{
+    height: 2rem;
+    width: 2rem;
+    padding-bottom: 2px;
+}
+.red {
+    background-color: red;
+}
+.dark {
+    background-color: rgb(66, 65, 65);
+}
+.purple {
+    background-color: indigo;
+}
+.pink {
+    background-color: pink;
 }

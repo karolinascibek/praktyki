@@ -26,6 +26,6 @@
   <nav class="nav">
   <a class="navbar-brand" href="<?php base_url()?>/home">   <i class="fas fa-calendar-alt"> </i>  <span>Kalendarz</span></a>
   <a class="nav-link" href="<?php base_url()?>/employer">Pracodawca</a>
-  <a class="nav-link" href="<?php base_url()?>/employee/login_employee">Pracownik</a>
+  <a class="nav-link" href="<?php base_url()?>/employee">Pracownik</a>
 </nav>
 </nav>

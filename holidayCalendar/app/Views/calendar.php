@@ -8,12 +8,26 @@
     if( isset($holidays)){   
         $holidays_array=$holidays;
     } 
+    $isEmployer = $_SESSION['isEmployer'];
+    if(!$isEmployer){
+        $isEmployer = 0;
+    }
+    else{
+        $isEmployer = 1;
+    }
  
  ?>
 <script>
     let number_of_employees =  <?php  echo count($data);?>;
-        //console.log(number_of_employees);
-
+    console.log(number_of_employees);
+    let isEmployer = <?php echo $isEmployer?>;
+    if(isEmployer){
+        isEmployer = true;
+    }
+    else{
+        isEmployer = false;
+    }
+    console.log(isEmployer);
         let holidays_array =  <?php echo json_encode($holidays_array);?>;
         let holidays_array_db =  <?php echo json_encode($holidays_array);?>;
         let employees_array =  <?php echo json_encode($data);?>;
@@ -34,7 +48,7 @@
         <div class="col-lg-12  calendar">
             <!-- Nagłówek kalendarza-->
             <div class="row justify-content-end ">
-                <div class=" col-lg-8  col-9 bg-info month ">
+                <div class=" col-lg-8  col-9 bg-light month ">
                     <div class="d-flex justify-content-between  py-2 align-items-center">
                         <!-- prev-->
                         <i class="fas fa-angle-left  prev "></i>
@@ -125,10 +139,10 @@
     <br>
     <hr>
     <div class="row mx-5  my-5   d-flex justify-content-end button-save">
-        <div class="col-12 p-0" >
-            <form action="/calendar"  class='' method='post'>
+        <div class="col-12 p-0 " >
+            <form action="/calendar"  class='justify-content-end ' method='post'>
                 <input id="hidden" name="array" type="hidden" value="xm234jq">
-                <button id='btn-save-calendar' type="submit" class="btn btn-primary btn-lg  btn-block "> Zapisz </button>
+                <button id='btn-save-calendar' type="submit" class="btn btn-primary btn-lg  "> Zapisz </button>
     
             </form>
            

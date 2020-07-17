@@ -6,7 +6,7 @@
     <div class="col-lg-6  col-md-6">
       <div class="row justify-content-center text-center">
         <div class="col-12">
-          <h1> Zaloguj się </h1>
+          <h2> Zaloguj się jako pracodawca</h2>
 
             <?php if(session()->get('success')): ?>
               <div class="alert alert-success" role='alert'>
@@ -41,7 +41,7 @@
                     <?php endif; ?>
                   </div>
               </div>
-              <button type="submit" class="btn btn-primary btn-md btn-block">Zapisz</button>
+              <button type="submit" class="btn btn-primary btn-md btn-block">Zaloguj się </button>
             </form>
         </div>
       </div>

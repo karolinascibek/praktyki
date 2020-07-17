@@ -2,16 +2,16 @@
 use CodeIgniter\Database\ConnectionInterface;
 
 use CodeIgniter\Model;
-class CalendarModel extends Model{
+class CalendarEmployeeModel extends Model{
 
     
-    protected $table      = 'calendar';
-    protected $primaryKey = 'id_calendar';
+    protected $table      = 'calendar_employee';
+    protected $primaryKey = 'id';
 
     //protected $returnType     = 'array';
     //protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['id_calendar','id_employer','name','code','year' ];
+    protected $allowedFields = ['id_calendar','id_employee','naumber_free_days','days_used' ];
 
     //protected $useTimestamps = true;
     //protected $createdField  = 'data_created';
