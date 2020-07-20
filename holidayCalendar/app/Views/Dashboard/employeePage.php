@@ -1,12 +1,11 @@
 
--------------------------------------------------------------
 <div class="container-fluid p-0 ">
 <div class="jumbotron ">
     <div class="d-flex-column justify-content-center text-center">
         <h2 class="display-4">Dołącz do Kalendarza!</h2>
         <p class="lead">Aby dołączyć należy podać kod.</p>
         <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        <p></p>
 
 
         <form class="form-inline justify-content-center" action='/dashboard' method='post'>
@@ -39,7 +38,8 @@
                 
                     <?php $i = 1; ?>
                     <?php foreach($calendars as $calendar): ?>
-                        <a href='<?=base_url()?>/dashboard/mycalendar/<?=$i?>' class="list-group-item list-group-item-action"><?php echo $calendar['name'] ?></a>
+
+                        <a href='<?=base_url()?>/dashboard/single_calendar/<?=$i?>' class="list-group-item list-group-item-action"><?php echo $calendar['name'] ?></a>
                     <?php $i++ ; ?>
                     <?php endforeach ?>
                 <?php else:?>

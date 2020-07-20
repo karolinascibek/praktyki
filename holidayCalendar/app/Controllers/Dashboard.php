@@ -15,31 +15,36 @@ class Dashboard extends BaseController
             'last_name'  => $session->get('last_name'),
         ];
 
+        helper('form');
         //zalogowany jaki pracodawca
         if( $session->get('isEmployer')){
             $model = new CalendarModel();
             if($this->request->getMethod() == 'post'){
                 $rules=[
-                    'code' =>'required|is_unique[calendar.code]|alpha_numeric',
+                    //'code' =>'required|is_unique[calendar.code]|alpha_numeric',
                     'name' =>'required',
                 ];
                 $errors = [
-                    'code' => [
-                        'alpha_numeric' => 'Kod składa się tylko z znaków alfabetu i cyfer. Nie może zawierać spacji.',
-                        'required' => 'Pole Kodjest wymagane.',
-                    ],
+                    // 'code' => [
+                    //    'alpha_numeric' => 'Kod składa się tylko z znaków alfabetu i cyfer. Nie może zawierać spacji.',
+                    //    'required' => 'Pole Kod jest wymagane.',
+                    //],
                     'name' => [
                         'required' => 'Pole Nazwa jest wymagane.',
                     ],
                 ];
                 if($this->validate($rules,$errors)){
+                    //losowy kod dla kalendarza
+                    $code = $this->generateCode(5,10);
+
                     $newData = [
                         'name' =>$this->request->getVar('name'),
-                        'code' =>$this->request->getVar('code'),
+                        'code' =>$code,
                         'id_employer' =>$id,
                     ];
                     $model->save($newData);
-                    //var_dump($newData);                  
+                    //var_dump($newData);    
+           
                 }
                 else{
                     $data['validation']=$this->validator;
@@ -56,7 +61,7 @@ class Dashboard extends BaseController
 
             $model = new CalendarModel();
             if($this->request->getMethod() == 'post'){
-                var_dump($_POST);
+                //var_dump($_POST);
                 $rules=[
                     'code' =>'required|is_not_unique[calendar.code]|alpha_numeric|validateCode[code,id_employee]',
                 ];
@@ -101,8 +106,9 @@ class Dashboard extends BaseController
 		echo view('templates/footer');
     }
 
-    public function mycalendar($id=null){
+    public function single_calendar($id=null){
         //pracodawca -----------------------------------------------------------------------
+            helper('url');
             if( !is_numeric($id)  ){
                     // nie ma takiej strony 
                 throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -145,13 +151,12 @@ class Dashboard extends BaseController
                                     ->where('id_employee', session()->get('id') )
                                     ->get()
                                     ->getResult();
+                        var_dump($calendar);
                         $id_cal = $calendar[$id -1 ]->id_calendar;
                         $calendarYear = $db->table('calendar')->where('id_calendar', $id_cal)
                                                                 ->get()->getResult();
                         session()->set('id_calendar',$id_cal);
                         session()->set('calendar_year',$calendarYear[0]->year);
-                        echo 'mój kalendarz';
-                        var_dump($calendar[$id -1 ]);
                         return redirect()->to('/calendar/mycalendar');  
                     }
                     
@@ -195,4 +200,18 @@ class Dashboard extends BaseController
         // }
 
     //}
+    private function generateCode($min,$max){
+        $z = random_int($min,$max);
+        $code = substr(md5(date("d.m.Y.H.i.s").rand(1,1000000)) , 0 , $z);
+
+        $model = new CalendarModel();
+        $cal = $model->where('code',$code)->first();
+        while( $cal != null ){
+            $code = substr(md5(date("d.m.Y.H.i.s").rand(1,1000000)) , 0 , $z);
+            $cal = $model->where('code',$code)->first();
+
+            echo 'szuka losowego nie powtarzającego się codu ---- .';
+        }
+        return $code;
+    }
 }

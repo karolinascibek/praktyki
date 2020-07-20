@@ -1,5 +1,4 @@
-<div class='bg-warning footer'>
-        stopka
+<div class=''>
 </div>
 </div>
 

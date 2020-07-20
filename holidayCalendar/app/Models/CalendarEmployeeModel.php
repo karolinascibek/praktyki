@@ -11,7 +11,7 @@ class CalendarEmployeeModel extends Model{
     //protected $returnType     = 'array';
     //protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['id_calendar','id_employee','naumber_free_days','days_used' ];
+    protected $allowedFields = ['id_calendar','id_employee','number_free_days','days_used' ];
 
     //protected $useTimestamps = true;
     //protected $createdField  = 'data_created';
@@ -30,9 +30,6 @@ class CalendarEmployeeModel extends Model{
         $user = $this->find($id);
         return $user;
     }
-
-
-
  
 }
 ?>

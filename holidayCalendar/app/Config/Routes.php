@@ -35,9 +35,9 @@ $routes->get('logout', 'Employer::logout');
 $routes->match(['get','post'],'register_employer', 'Employer::register_employer',['filter'=>'noauth']);
 $routes->match(['get','post'],'login_employer', 'Employer::index',['filter'=>'noauth']);
 $routes->get('calendar','Calendar::index',['filter'=>'auth']);
-$routes->get('mycalendar','Calendar::mycalendar',['filter'=>'auth']);
 $routes->get('dashboard','Dashboard::index',['filter'=>'auth']);
-$routes->add('singleCalendar/(:num)', 'App\Dashboard::singleCalander/$1');
+$routes->add('single_calendar/(:num)', 'App\Dashboard::single_calendar/$1');
+$routes->get('mycalendar','Calendar::mycalendar',['filter'=>'auth']);
 
 
 /**

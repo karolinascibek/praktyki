@@ -154,13 +154,20 @@
      <div class="row py-2 mx-5 justify-content-end">
         <div class="col-6">
                      
-            <form class="form-inline justify-content-end">
+            <form class="form-inline justify-content-end" action='/calendar/mycalendar' method='post'>
             <div class="form-group mx-sm-3 mb-2 ">
                 <label for="inputPassword2" class=""></label>
-                <input type="text" class="form-control" id="inputPassword2" placeholder="Podaj liczbę dni">
+                <input type="text" class="form-control" id="inputPassword2" name='pula' placeholder="Podaj liczbę dni">
             </div>
             <button type="submit" id='edit'class="btn btn-outline-primary mb-2 ">Zmień</button>
             </form>
+            <div class="">
+             <?php if(isset($validation)): ?>
+                <div class="alert alert-danger" role='alert'>      
+                   <?= $validation->listErrors()?>
+                </div>
+            <?php endif; ?>  
+            </div>
         </div>
     </div>
     <br>

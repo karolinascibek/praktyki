@@ -9,15 +9,13 @@ use App\Models\CalendarEmployeeModel;
 
 class Calendar extends BaseController
 {
-
 	public function index()
 	{
         $session = session();
         $id_cal = $session->get('id_calendar');
 
         if(!$session->get('isEmployer')){
-            var_dump($_SESSION);
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();        
         }
 
         $cal = new CalendarModel();
@@ -30,20 +28,14 @@ class Calendar extends BaseController
 			'email'=>  $session->get('email'),
             'isLoggedIn'=>true,
             'title'     => $cal['name'],
-            'styles'    => 'calendar',
         ];
         
         $session->set($data);
-        
-        //$model_employees = new EmployeeModel();
         $id =$data['id'];
-        //var_dump($_SESSION);
-
         //przekierowanie na strone edycji
 
         $db=db_connect();
         $model_calendar = new CustomModel($db);
-        //$request = \Config\Services::request();
         if($this->request->getMethod()=='post'){
             //------------------------------------------------------------------------- usunięcie i dodanie dat do bazy 
 
@@ -121,6 +113,11 @@ class Calendar extends BaseController
 
         // gdy nie ma jeszcze dodanego zadnego pracownika do kalendarza
         if( is_array($employees_model) && count($employees_model) == 0){
+            $model = new CalendarModel();
+            $cal = $model->where('id_calendar',session()->get('id_calendar'))
+                         ->first();
+            //var_dump($cal);
+            $data['code'] = $cal['code'];
             echo view('empty_calendar', $data);
         }
         else{
@@ -128,11 +125,11 @@ class Calendar extends BaseController
         }
         echo view('templates/footer', $data);
     }
-    // ----------------------------------------------------------------------------------------------new
+    // ----------------------------------------------------------------------------------------------
 
     public function mycalendar(){
         $session = session();
-        if(!$session){
+        if(!$session->get('isLoggedIn')){
             return redirect()->to('/');
         }
         $id_cal = $session->get('id_calendar');
@@ -151,12 +148,15 @@ class Calendar extends BaseController
             'isLoggedIn'=>true,
             'title'     => $cal['name'],
             'owner_calendar' => $cal['owner'].' '.$cal['last_name'],
-            'styles'    => 'calendar',
 		];
         $session->set($data);
         
         $model_employees = new EmployeeModel();
         $id =$data['id'];
+            //aktualizacja liczby dni urlopu
+        if($this->request->getMethod() == 'post'){
+            $data = $this->edit_employee_days_holiday($id, $id_cal, $data);
+        }
 
         $db=db_connect();
         $model_holidays= new HolidaysModel();
@@ -166,18 +166,14 @@ class Calendar extends BaseController
                                         ->join('employees','employees.id_employee = calendar_employee.id_employee')
                                         ->select('employees.id_employee, name, last_name,email, id_calendar ,calendar_employee.number_free_days, calendar_employee.days_used')
                                         ->get()->getResult();
-        //var_dump($employee_data);
 
         if(is_array($employee_data)){
-
             $holidays_data = $model_holidays->where([ 'id_employee'=>$id , 'id_calendar'=> $id_cal])->get()->getResult();
-           // var_dump($holidays_data);
 
            $array=$this->createArrayDatesHolidays($holidays_data, $employee_data);
 
            $data['employees'] = $array['employees'];
            $data['holidays']  = $array['holidays'];
-           //var_dump($data);
            echo view('templates/header', $data);
            echo view('calendaremployee', $data);
            echo view('templates/footer', $data);
@@ -185,27 +181,36 @@ class Calendar extends BaseController
         else{
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
-        echo 'kalendarz pracownika';
     }
-   
-    //---------------------------------------------------------------- do bazy danych
-    // private function getUser($id){
-    //     $user = new UserModel();
-    //     return $user->findUser($id);
-    // }
-    // private function findEmployees($id){
-    //         // $model =  new EmployeeModel();
-    //         // return  $model->findEmployeesAndTheirVacationDays($id);
-    //         $db=db_connect();
-    //         $model = new CustomModel($db);
-    //         return $model->findEmployees($id);         
-    // }
-    // private function findEmployeesHolidays($id){
-    //     $db=db_connect();
-    //     $model = new CustomModel($db);
-    //     return $model->findEmployeesVacation($id);    
-    // }
-    //-----------------------------------------------------------------------------
+    private function edit_employee_days_holiday($id_employee, $id_calendar, $data){
+       
+            //aktualizacja liczby dni urlopu
+
+            $rules=[
+                'pula'=>'required|is_natural'
+            ];
+            $errors =[
+                'pula'=>[
+                    'required'=>'To pole nie może być puste. ',
+                    'is_natural'=>'Podałeś nieprawidłowo wartość, pole może zawierać tylko liczby naturalne'
+                ]
+                ];
+            if($this->validate($rules,$errors)){
+                $model_calendar= new CalendarEmployeeModel();
+                $employee_calendar_update = $model_calendar->where(['id_employee' => $id_employee, 'id_calendar'=>$id_calendar])
+                                                                    ->first();
+                //$employee_calendar_update['number_free_days']=$_POST['pula'];
+                //$model_calendar->save($employee_calendar_update);
+                $model_calendar->update($employee_calendar_update['id'],['number_free_days'=>$_POST['pula']]);
+                //var_dump( $employee_calendar_update);
+            }
+            else{
+                $data['validation']=$this->validator;
+            }
+        
+            return $data;
+    }
+
     //przygotowanie talicy dat do wysłania 
     private function createArrayDatesHolidays($employersHolidays, $employees){
         $holidays_array=[];
@@ -244,6 +249,140 @@ class Calendar extends BaseController
             'holidays' => $holidays_array,
             'employees'=> $employees_array,
         ];
+    }
+
+    // do edycji kalendarza 
+    public function edit(){
+        
+        helper('form');
+        $session = session();
+        $id_cal = $session->get('id_calendar');
+        $id_employer =  $session->get('id');
+
+        if(!$session->get('isEmployer')){
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            
+        }
+        //var_dump($_SESSION);
+
+        if($this->request->getMethod()=='post'){
+            if( !isset( $_POST['delete'])){
+                $rules = [
+                    'name'=>'required|max_length[255]',
+                ];
+                $errors =[
+                    'name'=>[
+                        'required'=>'Pole nazwa nie może być puste.'
+                    ]
+                    ];
+                if($this->validate($rules,$errors)){
+                    $cal = new CalendarModel();
+                    $cal->update($id_cal,[ 'name'=>$_POST['name'] ]);
+                }
+                else{
+                    $data['validation'] = $this->validator;
+                }
+            }
+            else{
+                $cal_model = new CalendarModel();
+                $cal_model->where(['id_employer'=>$id_employer, 'id_calendar'=>$id_cal ])
+                                ->delete();
+                $cal_employee_model = new CalendarEmployeeModel();
+                $cal_employee_model->where('id_calendar',$id_cal)
+                                    ->delete();
+                $holidays_in_calendar = new HolidaysModel();
+                $holidays_in_calendar->where('id_calendar',$id_cal)
+                                    ->delete();
+            }
+            return redirect()->to('/dashboard');
+        }
+        $cal = new CalendarModel();
+        $cal = $cal->find($id_cal);
+        $data = [
+			'id' => $session->get('id'),
+			'name'=>  $session->get('name'),
+			'last_name'=> $session->get('last_name'),
+			'email'=>  $session->get('email'),
+            'isLoggedIn'=>true,
+            'title'     => $cal['name'],
+            'styles'    => 'calendar',
+            'code'      => $cal['code'],
+        ];
+        $session->set($data);
+        
+        $id =$data['id'];
+        echo view('templates/header', $data);
+        echo view('edit_calendar', $data);
+        echo view('templates/footer', $data);
+    }
+    public function edit_employee($id = null){
+
+        $session = session();
+        if(!$session->get('isEmployer')){
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();            
+        }
+        if(!is_numeric($id) || $id < 1 ){
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound(); 
+        }
+        else{
+
+            helper('form');
+            $id_cal = $session->get('id_calendar');
+
+            $number_employess_in_cal = new CalendarEmployeeModel();
+            $number_employess_in_cal = $number_employess_in_cal->where('id_calendar',$id_cal)->findAll();
+
+            if($id > count($number_employess_in_cal) ){
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound(); 
+            }
+
+            $calEmployeeModel = new CalendarEmployeeModel();
+            $cal_emp = $calEmployeeModel->where('id_calendar' ,$id_cal)
+                        ->join('employees','employees.id_employee = calendar_employee.id_employee')
+                        ->findAll();
+
+            //var_dump($cal);
+            $cal = new CalendarModel();
+            $cal_array = $cal->find($id_cal);
+            $data = [
+                'id' => $session->get('id'),
+                'name'=>  $session->get('name'),
+                'last_name'=> $session->get('last_name'),
+                'email'=>  $session->get('email'),
+                'isLoggedIn'=>true,
+                'title'     => $cal_array['name'],
+                'name_employee' =>$cal_emp[$id-1]['name'],
+                'last_name_employee' =>$cal_emp[$id-1]['last_name'],
+            ];
+            $session->set($data);
+            //echo $id.'----';
+            if($this->request->getMethod() == 'post'){
+                if(!isset($_POST['delete'])){
+                    $data = $this->edit_employee_days_holiday($cal_emp[$id-1]['id_employee'], $id_cal, $data);
+                }
+                else{
+                    echo 'usuniete';
+                    $id_employee = $cal_emp[$id-1]['id_employee'];
+                    $employeeToDelete = $calEmployeeModel->where(['id_employee'=>$id_employee, 'id_calendar'=>$id_cal])->delete();
+                    $holiday_model = new HolidaysModel();
+                    $holidays_employee = $holiday_model->where(['id_employee'=>$id_employee, 'id_calendar'=>$id_cal])->delete();
+                    //var_dump($employeeToDelete);
+                    //var_dump($holidays_employee);
+                                                         
+                }
+                return redirect()->to('/calendar');
+            }
+
+            $cal_emp = $calEmployeeModel->where('id_calendar' ,$id_cal)
+                        ->join('employees','employees.id_employee = calendar_employee.id_employee')
+                        ->findAll();
+
+            $data['number_free_days']=$cal_emp[$id-1]['number_free_days'];
+            //var_dump($data);
+            echo view('templates/header', $data);
+            echo view('edit_employee', $data);
+            echo view('templates/footer', $data);
+        }
     }
     //--------------------------------------------------------------------
     

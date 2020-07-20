@@ -35,11 +35,7 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-1 mt-lg-0">
         <li class="nav-item active">
-          <?php if( $_SESSION['isEmployer']):?>
-            <a class="nav-link" href="/employer/edit">Profil <span class="sr-only">(current)</span></a>
-          <?php else:?>
-            <a class="nav-link" href="/employee/edit">Profil <span class="sr-only">(current)</span></a>
-          <?php endif;?>
+            <a class="nav-link" href="/profile">Profil <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"><?php echo $name.' '.$last_name ?></a>

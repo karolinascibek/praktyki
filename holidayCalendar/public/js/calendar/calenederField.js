@@ -3,7 +3,7 @@ const numberOfEmployees = number_of_employees;
 const arrayChoiceDay = holidays_array;
 const arrayDB = holidays_array_db;  // zawartoć z db
 
-console.log(arrayDB);
+//console.log(arrayDB);
 
 let dataToBeDeleted = [];
 let dataToBeAdded = [];
@@ -50,15 +50,15 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
     for(let fw=0; fw < numberOfEmployees; fw++)
     {
         //lisat pracowników
-        if(activFields){
-        row_list += '<div class="d-flex bd-highlight  border-top list-employees">'+
-                        `<div class=" mr-auto  pl-2 name-and-last-name "> <a  href='${url}:8080/calendar/edit_employee'>${employees_array[fw].name} ${employees_array[fw].last_name}</a> </div>`+
-                        `<div class=" bd-highlight   d-none d-lg-block  holidays pula ">${employees_array[fw].number_free_days} </div>`+
-                        `<div class="bd-highlight   d-none d-lg-block diffrence_days holidays"> ${employees_array[fw].days_used}</div>`+
-                        `<div class=" bd-highlight d-none   d-lg-block  holidays days-left">${employees_array[fw].number_free_days - employees_array[fw].days_used}</div>`+
-                    `</div>`;
-        list.innerHTML=row_list;
-        }
+        // if(activFields){
+        // row_list += '<div class="d-flex bd-highlight  border-top list-employees">'+
+        //                 `<div class=" mr-auto  pl-2 name-and-last-name "> <a  href='${url}/calendar/edit_employee'>${employees_array[fw].name} ${employees_array[fw].last_name}</a> </div>`+
+        //                 `<div class=" bd-highlight   d-none d-lg-block  holidays pula ">${employees_array[fw].number_free_days} </div>`+
+        //                 `<div class="bd-highlight   d-none d-lg-block diffrence_days holidays"> ${employees_array[fw].days_used}</div>`+
+        //                 `<div class=" bd-highlight d-none   d-lg-block  holidays days-left">${employees_array[fw].number_free_days - employees_array[fw].days_used}</div>`+
+        //             `</div>`;
+        // list.innerHTML=row_list;
+        // }
 
         // pola kalendarza
         fieldCalenderWorker+=`<div id='${fw}' class='d-flex justify-content-between  fieldDays '  > ${fields}</div>`;
@@ -119,7 +119,7 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
                 }
             ));
             //console.log('hidden input');
-            console.log(inp);
+            ///console.log(inp);
         })
     }
 }
@@ -130,17 +130,18 @@ const renderFieldsCalender=(activFields, numberOfEmployees)=>{
 //
 const displayFreeDays =(calender)=>{
     const freedaysArray = nonWorkingDays(date);
-    //console.log(freedaysArray);
+    console.log(freedaysArray);
 
     freedaysArray.forEach( day =>{
         // format daty dd-mm-rrrr 
         //format daty-rrrr-mm-dd
         let str = day.split('-');
-        let dateWithArray = new Date(str[0],str[1],str[2]);
-        if(dateWithArray.getMonth() - 1 === date.getMonth() && dateWithArray.getFullYear() === date.getFullYear()){
-            //console.log(dateWithArray);
+        let dateWithArray = new Date(str[0],str[1] -1 ,str[2]);
+        //console.log(dateWithArray);
+        if( ( dateWithArray.getMonth() === date.getMonth() )  &&  ( dateWithArray.getFullYear() === date.getFullYear() ) ){
+
             //.${dateWithArray.getDate()}-${dateWithArray.getMonth()}-${dateWithArray.getFullYear()}
-            let takeDiv = document.querySelectorAll(` .fieldsWorker .fieldDays [id='${dateWithArray.getFullYear()}-${dateWithArray.getMonth()}-${dateWithArray.getDate()}']`);
+            let takeDiv = document.querySelectorAll(`.fieldsWorker .fieldDays [id='${dateWithArray.getFullYear()}-${dateWithArray.getMonth()+1}-${dateWithArray.getDate()}']`);
 
             takeDiv.forEach( day =>{
                 day.classList.add('freeDay');
@@ -190,7 +191,7 @@ const changeFieldColor =(calender,arrayChoiceDay)=>{
             });
             //console.log(arrayChoiceDay);
         });
-        console.log('wybory');
+       // console.log('wybory');
 }
 
 
@@ -250,7 +251,7 @@ const whenIsEaster=(date)=>{
     n = parseInt( (h+l-7*m+114)/31 );
 
     let easter = new Date(date.getFullYear(), n-1 , p);
-    //console.log( easter);
+    ///console.log( easter);
     return  easter; 
 }
 
@@ -299,7 +300,7 @@ const createJSON = ()=>{
     const toAdd=[];
 
     //zawarte w choiceDay ale nie w holidays_array_db
-    console.log(arrayChoiceDay);
+    //console.log(arrayChoiceDay);
     const inArrayChoiceDays=[];
     for(let i =0; i < arrayChoiceDay.length ; i++){
         let equal=false;
@@ -332,10 +333,10 @@ const createJSON = ()=>{
 
     dataToBeDeleted = toDelate;
 
-    console.log('dodane')
-    console.log(dataToBeAdded);
-    console.log('do usuniecia ');
-    console.log(dataToBeDeleted);
+    //console.log('dodane')
+    //console.log(dataToBeAdded);
+    //console.log('do usuniecia ');
+    //console.log(dataToBeDeleted);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 renderFieldsCalender(activFields, numberOfEmployees);

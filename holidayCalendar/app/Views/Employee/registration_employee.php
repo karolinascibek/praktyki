@@ -1,6 +1,6 @@
 
 
-<div class="container">
+<div class="container py-5">
   <div class="row justify-content-md-center text-center">
     <div class="col-lg-7 my-4">
       <h2>Zarejestruj się jako pracownik </h2>

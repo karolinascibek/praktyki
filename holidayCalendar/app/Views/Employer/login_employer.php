@@ -1,7 +1,5 @@
 
-
-  Pracodawca
-  <div class="container ">
+  <div class="container  py-5">
   <div class="row justify-content-md-center">
     <div class="col-lg-6  col-md-6">
       <div class="row justify-content-center text-center">

@@ -39,8 +39,10 @@
 
 
 <div class="calendar-main  ">
-    <div class='row   mx-5  my-3 d-flex text-center  '>
-        <h1> <?=esc($title)?></h1>
+    <div class='mx-5  my-3  d-flex justify-content-between   '>
+        <div class="">  <h1> <?=esc($title)?></h1>  </div>
+        <div class=""> <a href="/calendar/edit"> <i class="fas fa-cog"></i>  </a> </div>
+        
     </div>
     <hr>
     <div class="row mx-5 mt-0 mb-3">
@@ -74,14 +76,14 @@
             </div> 
 
             <!-- dni dwie kolumny z lista pracowników i polami kalendarza -->
-            <div class="row  ">
+            <div class="row ">
                  <!-- nagłowek dla pracowników -->
-                 <div class="col-lg-4 col-3 bg-info p-0  " >                      
-                        <div class="d-flex justify-content-between header bd-highlight  ">
-                            <div class=" mr-auto bd-highlight pl-2 ">  Imie i nazwisko </div>
-                            <div class=" bd-highlight border-left border-right border-dark  holidays d-none d-lg-block"> P</div>
-                            <div class="bd-highlight holidays border-right border-dark  d-none d-lg-block">W</div>
-                            <div class=" bd-highlight  d-none d-lg-block holidays">Z</div>
+                 <div class="col-lg-4 col-3 bg-info p-0" >                      
+                        <div class="d-flex justify-content-between  header bd-highlight   ">
+                            <div class="mr-auto bd-highlight pl-2 d-flex text-center">  Imie i nazwisko </div>
+                            <div class="bd-highlight border-left border-right border-dark d-none d-lg-block  holidays"> P</div>
+                            <div class="bd-highlight  border-right border-dark  d-none d-lg-block holidays">W</div>
+                            <div class="bd-highlight  d-none d-lg-block holidays">Z</div>
                         </div>
         
                 </div>
@@ -97,32 +99,31 @@
                  <!-- lista pracowników -->
                 <div class="col-lg-4 col-3  hol list  p-0 pl" >
                     
-                    <!-- <?php //$_SESSION['me']='Karolina';
-                    //foreach($data as $emp):?>
-                    <div class="d-flex bd-highlight border-top">
-                        <div class=" mr-auto bd-highlight  list-employees">  
-                                    <input id="prodId" name="id_employee" type="hidden" value="<?php// echo $emp['id_user'];
-
-                                     ?>">
-                                    <a  class="btn my-btn " href='<?php //base_url()?>/calendar/edit_employee' ><?php //echo $emp['name'].' '.$emp['last_name']; ?></a>
+                    <?php $i=1;
+                    foreach($data as $emp):?>
+                    <div class="d-flex bd-highlight  border-top list-employees">
+                        <div class=" mr-auto  pl-2 name-and-last-name ">  
+                            <input id="prodId" name="id_employee" type="hidden" value="<?php echo $emp['id_user']; ?>">
+                            <a  class="" href='<?php echo base_url()?>/calendar/edit_employee/<?=$i?>' ><?php echo $emp['name'].' '.$emp['last_name']; ?></a>
                         </div>
                         
-                        <div class=" bd-highlight  holidays d-none d-lg-block"> <?php //$emp['number_free_days'] ?></div>
-                        <div class="bd-highlight holidays d-none d-lg-block"> <?php //$emp['days_used']?> </div>
-                        <div class=" bd-highlight d-none d-lg-block  holidays"><?php //$emp['number_free_days'] - $emp['days_used']?></div>
+                        <div class=" bd-highlight   d-none d-lg-block  holidays pula"> <?php echo $emp['number_free_days'] ?></div>
+                        <div class="bd-highlight   d-none d-lg-block diffrence_days holidays"> <?php echo $emp['days_used']?> </div>
+                        <div class="bd-highlight d-none   d-lg-block  holidays days-left"><?php echo $emp['number_free_days'] - $emp['days_used']?></div>
                     </div>
-                    <?php// endforeach;?> -->
-                    <div class="d-flex bd-highlight border-top list-employees">
+                    <?php $i++;?> 
+                    <?php endforeach;?> 
+                    <!-- <div class="d-flex bd-highlight border-top list-employees">
                         <div class=" mr-auto bd-highlight name-and-last-name ">  
                             Lista pracownikow
-                                    <!-- <input id="prodId" name="id_employee" type="hidden" value="<?php //echo $emp['id_user']; ?>-->
-                            <!-- <a  class="btn my-btn " href='<?php //base_url()?>/calendar/edit_employee' >lista prac </a> -->
+                            <input id="prodId" name="id_employee" type="hidden" value="<?php //echo $emp['id_user']; ?>">
+                            <a  class="btn my-btn " href='<?php //echo base_url()?>/calendar/edit_employee' >lista prac </a>
                         </div>
                         
                         <div class=" bd-highlight  holidays d-none d-lg-block pula "> 12</div>
                         <div class="bd-highlight holidays d-none d-lg-block diffrence_days"> 2 </div>
                         <div class=" bd-highlight d-none d-lg-block  holidays days-left">10</div>
-                    </div>
+                    </div> -->
                     
                    
                 </div>
@@ -134,6 +135,7 @@
                 </div>         
             </div>
              <!-- koniec kalendarza -->
+        
         </div>
     </div>
     <br>
@@ -142,10 +144,8 @@
         <div class="col-12 p-0 " >
             <form action="/calendar"  class='justify-content-end ' method='post'>
                 <input id="hidden" name="array" type="hidden" value="xm234jq">
-                <button id='btn-save-calendar' type="submit" class="btn btn-primary btn-lg  "> Zapisz </button>
-    
-            </form>
-           
+                <button id='btn-save-calendar' type="submit" class="btn btn-primary btn-lg  "> Zapisz </button>    
+            </form>          
         </div>
     </div>
 
