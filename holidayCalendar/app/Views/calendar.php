@@ -153,4 +153,3 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src='../js/calendar/calendarHorizontal.js'> </script>
 <script src='../js/calendar/calenederField.js'> </script> 
-<script src='../js/calendar/connection/ajax.js'> </script> 

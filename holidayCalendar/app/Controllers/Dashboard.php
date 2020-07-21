@@ -18,17 +18,13 @@ class Dashboard extends BaseController
         helper('form');
         //zalogowany jaki pracodawca
         if( $session->get('isEmployer')){
+
             $model = new CalendarModel();
             if($this->request->getMethod() == 'post'){
                 $rules=[
-                    //'code' =>'required|is_unique[calendar.code]|alpha_numeric',
                     'name' =>'required',
                 ];
                 $errors = [
-                    // 'code' => [
-                    //    'alpha_numeric' => 'Kod składa się tylko z znaków alfabetu i cyfer. Nie może zawierać spacji.',
-                    //    'required' => 'Pole Kod jest wymagane.',
-                    //],
                     'name' => [
                         'required' => 'Pole Nazwa jest wymagane.',
                     ],
@@ -43,8 +39,6 @@ class Dashboard extends BaseController
                         'id_employer' =>$id,
                     ];
                     $model->save($newData);
-                    //var_dump($newData);    
-           
                 }
                 else{
                     $data['validation']=$this->validator;
@@ -52,7 +46,7 @@ class Dashboard extends BaseController
             }
             $calendar = $model->where('id_employer',$id)->get()->getResult();
             $data['calendars'] = $calendar;
-            //var_dump($calendar);
+
 		    echo view('templates/header',$data);
 		    echo view('Dashboard/dashboard',$data);
         }
@@ -61,7 +55,7 @@ class Dashboard extends BaseController
 
             $model = new CalendarModel();
             if($this->request->getMethod() == 'post'){
-                //var_dump($_POST);
+
                 $rules=[
                     'code' =>'required|is_not_unique[calendar.code]|alpha_numeric|validateCode[code,id_employee]',
                 ];
@@ -83,7 +77,7 @@ class Dashboard extends BaseController
                     ];
                     $model_calendar_employee = new CalendarEmployeeModel();
                     $model_calendar_employee->save($newData);
-                    //var_dump($newData);                  
+                  
                 }
                 else{
                     $data['validation']=$this->validator;
@@ -94,15 +88,13 @@ class Dashboard extends BaseController
             $employeeCalendars = $model->where('id_employee',$session->get('id'))
                                         ->join('calendar' , 'calendar.id_calendar = calendar_employee.id_calendar')
                                         ->findAll();
-            //var_dump($employeeCalendars);
+
             $data['calendars'] = $employeeCalendars;
-
-
 
             echo view('templates/header',$data);
             echo view('Dashboard/employeePage',$data);
         }      
-        //var_dump($_SESSION);
+
 		echo view('templates/footer');
     }
 
@@ -164,42 +156,7 @@ class Dashboard extends BaseController
 
             }
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
-        // //pracownik -------------------------------------------------------------------------------
-        // else{
-
-        //     $model = new CalendarEmployeeModel();
-        //     if( !is_numeric($id)  ){
-        //             // nie ma takiej strony 
-        //         throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        //     }elseif($id >=1  ){
-        //         $calendars = $model->where('id_employee', session()->get('id') )
-        //                             ->get()
-        //                             ->getResult();
-        //         var_dump($calendars);
-        //         if( !isset($calendars) || count($calendars) < $id ){
-        //                 throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        //         }else{
-        //             //liczba kalendarzy uzytkownika
-        //             $db = db_connect();
-                
-        //             $calendar = $db->table('calendar_employee')
-        //                             ->where('id_employee', session()->get('id') )
-        //                             ->get()
-        //                             ->getResult();
-        //             session()->set('id_calendar',$calendar[$id -1 ]->id_calendar);
-        //             session()->set('calendar_year',$calendar[$id -1 ]->year);
-        //             echo 'mój kalendarz';
-        //             var_dump($calendar[$id -1 ]);
-        //             return redirect()->to('/calendar/mycalendar');  
-        //         }           
-
-        //     }
-        //     echo 'kalendarz pracownika';
-        //     throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        // }
-
-    //}
+    }
     private function generateCode($min,$max){
         $z = random_int($min,$max);
         $code = substr(md5(date("d.m.Y.H.i.s").rand(1,1000000)) , 0 , $z);

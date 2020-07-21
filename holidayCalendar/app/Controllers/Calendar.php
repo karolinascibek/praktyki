@@ -45,7 +45,6 @@ class Calendar extends BaseController
             if(is_array($employees)){
                 //pobranie z bazy 
                 $days = json_decode($_POST['array']);
-                //var_dump($days);
                 $deleted_days = $days->deleted;
                 $added_days   = $days->added;
 
@@ -58,13 +57,10 @@ class Calendar extends BaseController
                         if( (int)$deleted->id_row === $i ){
                             //echo 'usuniety';
                             $t = strtotime($deleted->id_day);
-                            //echo 'id: '.$deleted->id_day.'<br>';
 
                             $date = date("Y-m-d",$t);
                             //echo 'data do usniecia';
-                            //var_dump($date);
                             $model_holiday->where(['id_employee'=> $emDb->id_employee ,'data' => $date,'id_calendar'=> session()->get('id_calendar')])->delete();
-                            //var_dump($deleted);
                             $counter--;
                         }
                     }
@@ -107,7 +103,6 @@ class Calendar extends BaseController
            $array=$this->createArrayDatesHolidays($holidays_model, $employees_model);
            $data['employees'] = $array['employees'];
            $data['holidays']  = $array['holidays'];
-           //var_dump($array);
         }
         echo view('templates/header', $data);
 
@@ -116,7 +111,6 @@ class Calendar extends BaseController
             $model = new CalendarModel();
             $cal = $model->where('id_calendar',session()->get('id_calendar'))
                          ->first();
-            //var_dump($cal);
             $data['code'] = $cal['code'];
             echo view('empty_calendar', $data);
         }
@@ -139,7 +133,7 @@ class Calendar extends BaseController
                     ->join('users','users.id = calendar.id_employer')
                     ->select('users.name as owner, users.last_name , calendar.name, calendar.id_calendar')
                     ->first();
-        //var_dump($cal);
+
         $data = [
 			'id'       => $session->get('id'),
 			'name'     =>  $session->get('name'),
@@ -199,10 +193,8 @@ class Calendar extends BaseController
                 $model_calendar= new CalendarEmployeeModel();
                 $employee_calendar_update = $model_calendar->where(['id_employee' => $id_employee, 'id_calendar'=>$id_calendar])
                                                                     ->first();
-                //$employee_calendar_update['number_free_days']=$_POST['pula'];
-                //$model_calendar->save($employee_calendar_update);
+
                 $model_calendar->update($employee_calendar_update['id'],['number_free_days'=>$_POST['pula']]);
-                //var_dump( $employee_calendar_update);
             }
             else{
                 $data['validation']=$this->validator;
@@ -221,14 +213,14 @@ class Calendar extends BaseController
         foreach($employees as $e){
             foreach($employersHolidays as $h){
                 if($e->id_employee === $h ->id_employee){
-                    //var_dump($h->data);
+
                     $t = strtotime($h ->data);
                     $ob=[ 
                         'id_row'  => "$i",
                         'id_day'  => date("Y-n-j",$t),
                         'id_user' => $h ->id_employee,
                     ];
-                    //var_dump([ $e->id_user , $h->id_user]);
+
                     $holidays_array[$how] = $ob;
                     $how++;
                 }
@@ -263,7 +255,6 @@ class Calendar extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
             
         }
-        //var_dump($_SESSION);
 
         if($this->request->getMethod()=='post'){
             if( !isset( $_POST['delete'])){
@@ -341,7 +332,6 @@ class Calendar extends BaseController
                         ->join('employees','employees.id_employee = calendar_employee.id_employee')
                         ->findAll();
 
-            //var_dump($cal);
             $cal = new CalendarModel();
             $cal_array = $cal->find($id_cal);
             $data = [
@@ -365,10 +355,7 @@ class Calendar extends BaseController
                     $id_employee = $cal_emp[$id-1]['id_employee'];
                     $employeeToDelete = $calEmployeeModel->where(['id_employee'=>$id_employee, 'id_calendar'=>$id_cal])->delete();
                     $holiday_model = new HolidaysModel();
-                    $holidays_employee = $holiday_model->where(['id_employee'=>$id_employee, 'id_calendar'=>$id_cal])->delete();
-                    //var_dump($employeeToDelete);
-                    //var_dump($holidays_employee);
-                                                         
+                    $holidays_employee = $holiday_model->where(['id_employee'=>$id_employee, 'id_calendar'=>$id_cal])->delete();                                        
                 }
                 return redirect()->to('/calendar');
             }
@@ -378,7 +365,6 @@ class Calendar extends BaseController
                         ->findAll();
 
             $data['number_free_days']=$cal_emp[$id-1]['number_free_days'];
-            //var_dump($data);
             echo view('templates/header', $data);
             echo view('edit_employee', $data);
             echo view('templates/footer', $data);

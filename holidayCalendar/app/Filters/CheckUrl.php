@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 
 class CheckUrl implements FilterInterface
 {
-    public function before(RequestInterface $request)
+    public function before(RequestInterface $request,$arguments = null)
     {
         // Do something here
 
@@ -14,7 +14,7 @@ class CheckUrl implements FilterInterface
 
     //--------------------------------------------------------------------
 
-    public function after(RequestInterface $request, ResponseInterface $response)
+    public function after(RequestInterface $request, ResponseInterface $response,$arguments = null)
     {
         // Do something here
     }

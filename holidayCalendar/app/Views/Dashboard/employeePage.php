@@ -43,7 +43,7 @@
                     <?php $i++ ; ?>
                     <?php endforeach ?>
                 <?php else:?>
-                        Nie dołączyłeś do żadnego kalendarza
+                        Nie dołączyłeś do żadnego kalendarza.
                 <?php endif;?>
             </div>
         </div>

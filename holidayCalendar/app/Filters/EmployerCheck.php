@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 
 class EmployerCheck implements FilterInterface
 {
-    public function before(RequestInterface $request)
+    public function before(RequestInterface $request,$arguments = null)
     {
         // Do something here
         $url = service('uri');
@@ -23,7 +23,7 @@ class EmployerCheck implements FilterInterface
 
     //--------------------------------------------------------------------
 
-    public function after(RequestInterface $request, ResponseInterface $response)
+    public function after(RequestInterface $request, ResponseInterface $response,$arguments = null)
     {
         // Do something here
     }
