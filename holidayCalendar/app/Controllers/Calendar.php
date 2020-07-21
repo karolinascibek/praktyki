@@ -88,6 +88,7 @@ class Calendar extends BaseController
                     $i++;
                 }
             }
+            $session->setFlashdata('success','Wprowadzone zmiany zostały zapisane.');
             //-----------------------------------------------------------------------------
         }
         // pobranie osób do kalendarza
@@ -118,6 +119,14 @@ class Calendar extends BaseController
             echo view('calendar', $data);
         }
         echo view('templates/footer', $data);
+    }
+    public function delete_empty_calendar(){
+        $session = session();
+        if($this->request->getMethod() == 'post'){
+            $model = new CalendarModel();
+            $model->where('id_calendar',$session->get('id_calendar'))->delete();
+            return redirect()->to('/dashboard');
+        }
     }
     // ----------------------------------------------------------------------------------------------
 

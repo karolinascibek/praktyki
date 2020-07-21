@@ -127,8 +127,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Pula</th>
-                                    <th scope="col">Wykożystane</th>
-                                    <th scope="col">Zostalo</th>
+                                    <th scope="col">Wykorzystane</th>
+                                    <th scope="col">Zostało</th>
                                 </tr>
                             </thead>
                             <tbody>

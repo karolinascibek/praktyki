@@ -107,7 +107,7 @@ html, body {
     color: rgb(58, 186, 197);
 }
 .next:hover{
-    color:  rgb(58, 186, 197);te;
+    color:  rgb(58, 186, 197);
 }
 .choiceDay{
     background: red !important;
@@ -167,6 +167,9 @@ html, body {
 ​.name-and-last-name a:visited, .name-and-last-name a:link, .name-and-last-name a:hover
 {
     text-decoration: none;
+}
+.name-and-last-name:hover{
+    color:rgb(26, 26, 148);
 }
 .pula{
     border-right: 0.001rem solid black;

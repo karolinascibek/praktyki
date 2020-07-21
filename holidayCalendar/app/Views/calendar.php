@@ -45,11 +45,20 @@
         
     </div>
     <hr>
+    <!-- <div class="row mx-5 my-1">
+        <div class="col-12">
+            <?php //if(session()->get('success')): ?>
+              <div class="alert alert-success" role='alert'>
+                  <?php //session()->get('success');?>
+              </div>
+            <?php// endif; ?>
+        </div>
+    </div> -->
     <div class="row mx-5 mt-0 mb-3">
         <!-- kalendarz -->
         <div class="col-lg-12  calendar">
             <!-- Nagłówek kalendarza-->
-            <div class="row justify-content-end ">
+                <div class="row justify-content-end ">
                 <div class=" col-lg-8  col-9 bg-light month ">
                     <div class="d-flex justify-content-between  py-2 align-items-center">
                         <!-- prev-->
@@ -65,8 +74,7 @@
 
             <!-- dni miesiąca -->
             <div class="row justify-content-end ">
-                <div class="col-lg-4  col-3  ">
-
+                <div class="col-lg-4   col-3  ">
                 </div>
                 <div class="col-lg-8 bg-success  col-9 m-0 p-0  month-days-header">
                     <div class="d-flex justify-content-between days">
@@ -139,8 +147,7 @@
         </div>
     </div>
     <br>
-    <hr>
-    <div class="row mx-5  my-5   d-flex justify-content-end button-save">
+    <div class="row mx-5  mt-3  mb-5  d-flex justify-content-end button-save">
         <div class="col-12 p-0 " >
             <form action="/calendar"  class='justify-content-end ' method='post'>
                 <input id="hidden" name="array" type="hidden" value="xm234jq">
@@ -148,6 +155,39 @@
             </form>          
         </div>
     </div>
+    <hr >
+    <div class="row mx-5 my-2">
+        <div class="col-lg-4 col-4  ">
+            <div class="row ">
+            <div class="col-12"> <strong>P </strong> - Pula   </div>
+            </div>
+            <div class="row">
+            <div class="col-12"> <strong>W </strong> - Wykorzystane</div>
+            </div>
+            <div class="row">
+                <div class="col-12">  <strong>Z </strong> - Zostało dni </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-8 ">
+            <div class="row p-1 text-right">
+                <div class="col-6 ">  
+                     <div class="row textt-center"> <div class=" red colors"> </div> -  Urlop </div>
+                </div>
+                <div class="col-6  "> 
+                     <div class="row "><div class="pink colors"> </div> -  Sobota/Niedziela </div>
+                </div>                
+            </div>
+            <div class="row p-1 justify-content-end">
+                <div class="col-6  ">
+                     <div class="row ">  <div class=" dark colors"> </div> -  Dni robocze    </div>
+                </div>
+                <div class="col-6">  
+                    <div class="row "><div class="purple colors"> </div> -  Dni wolne od pracy</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
