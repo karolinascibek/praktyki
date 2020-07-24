@@ -21,7 +21,7 @@ W sekcji `# DATABASE` usuń `#` tam gdzie jest `database.default. ` i skonfiguru
 
 Jeśli nie masz stworzonej bazy danych o nazwie którą podałeś w pliku `.env` stwórz ją np. za pomocą phpmyadmin.
 
-Wpisz następujące polecenia w wierszu poleceń z katalogu głównego
+Wpisz następujące polecenia w wierszu poleceń z katalogu głównego:
 
 `php spark migrate` - w twojej bazie danych powinny pojawić się tabele.
 

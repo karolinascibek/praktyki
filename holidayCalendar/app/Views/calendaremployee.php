@@ -42,8 +42,8 @@
         <div class="col-11">
          <p> Właściciel: <?php echo $owner_calendar?></p>
         </div>
-        <div class="col-1">
-           
+        <div class="col-1 px-0">
+           <a href="/formPDF" class = 'btn btn-success' > generuj wniosek</a>
         </div>
     </div>
     <hr>
