@@ -38,6 +38,8 @@ $routes->get('calendar','Calendar::index',['filter'=>'auth']);
 $routes->get('dashboard','Dashboard::index',['filter'=>'auth']);
 $routes->add('single_calendar/(:num)', 'App\Dashboard::single_calendar/$1');
 $routes->get('mycalendar','Calendar::mycalendar',['filter'=>'auth']);
+$routes->get('formPDF','FormPDF::index',['filter'=>'auth']);
+$routes->get('generate_pdf','FormPDF::generate_pdf',['filter'=>'auth']);
 
 
 /**

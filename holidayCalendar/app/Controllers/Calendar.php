@@ -28,6 +28,7 @@ class Calendar extends BaseController
 			'email'=>  $session->get('email'),
             'isLoggedIn'=>true,
             'title'     => $cal['name'],
+            'year'      => $cal['year'],
         ];
         
         $session->set($data);
@@ -140,7 +141,7 @@ class Calendar extends BaseController
         $cal = new CalendarModel();
         $cal = $cal->where('id_calendar' ,$id_cal)
                     ->join('users','users.id = calendar.id_employer')
-                    ->select('users.name as owner, users.last_name , calendar.name, calendar.id_calendar')
+                    ->select('users.name as owner, users.last_name , year, calendar.name, calendar.id_calendar')
                     ->first();
 
         $data = [
@@ -151,6 +152,7 @@ class Calendar extends BaseController
             'isLoggedIn'=>true,
             'title'     => $cal['name'],
             'owner_calendar' => $cal['owner'].' '.$cal['last_name'],
+            'year'  =>$cal['year'],
 		];
         $session->set($data);
         

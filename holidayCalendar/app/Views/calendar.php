@@ -27,16 +27,13 @@
     else{
         isEmployer = false;
     }
-    console.log(isEmployer);
-        let holidays_array =  <?php echo json_encode($holidays_array);?>;
-        let holidays_array_db =  <?php echo json_encode($holidays_array);?>;
-        let employees_array =  <?php echo json_encode($data);?>;
-        //console.log(holidays_array);
-        console.log(employees_array);
-    let url = '<?php echo base_url(); ?>';
-    console.log(url);
-</script>
+    let year = <?php echo $year ;?>;
+    let holidays_array =  <?php echo json_encode($holidays_array);?>;
+    let holidays_array_db =  <?php echo json_encode($holidays_array);?>;
+    let employees_array =  <?php echo json_encode($data);?>;
 
+    let url = '<?php echo base_url(); ?>';
+</script>
 
 <div class="calendar-main  ">
     <div class='mx-5  my-3  d-flex justify-content-between   '>

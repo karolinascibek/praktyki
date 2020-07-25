@@ -20,6 +20,7 @@ class Validation
 		\App\Validation\UserRules::class,
 		\App\Validation\EmployeeRules::class,
 		\App\Validation\CalendarRules::class,
+		\App\Validation\DateRules::class,
 	];
 
 	/**

@@ -8,22 +8,22 @@
         <div class='date'>miejscowość, data złożenia podania</div>
     </div>
     <div class="nameCompany">
-        <div> <?php echo $company; ?></div>
+        <div> <?php echo $company.' nip:'.$nip; ?></div>
     </div>
     <div class="company">
         <div>nazwa i nip firmy</div>
     </div>
     <div class="application">
         <p><strong>WNIOSEK</strong> </p>
-        <p>Zwracam się z prośbą u udzielenie urlopu</p>
-        <p>typ urlopu</p>
-        <p>na rok XXXX od XX>XX>XXXX do XX.XX.XXXX , tj, X dni roboczych</p>
+        <p>Zwracam się z prośbą o udzielenie urlopu</p>
+        <p><?php echo $type; ?></p>
+        <p>za rok <?php echo $year;?> w okresie od <?php echo $from?> do <?php echo $to ?> tj. <?php echo $days;?> dni roboczych.</p>
     </div>
     <div class="employee">
         <div>podpis pracownika</div>
     </div>
     <div class="agree">
-        <div>WYRAŻAM ZGODE/ NIE WYRAŻAM ZGODY*  na udzielenie urlopu w w.w. terminie</div>
+        <div>WYRAŻAM ZGODE / NIE WYRAŻAM ZGODY* na udzielenie urlopu w w.w. terminie.</div>
     </div>
     <div class="employer">
         <div>Podpis pracodawcy</div>

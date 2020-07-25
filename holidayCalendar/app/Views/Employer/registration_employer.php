@@ -13,17 +13,27 @@
 
         <div class="form-group">
           <label for="name">Imie</label>
-          <input type="text" class="form-control" name='name'id="name" aria-describedby="emailHelp">
+          <input type="text" class="form-control" name='name'id="name" value="<?=set_value('name')?>">
         </div>
         <div class="form-group">
           <label for="last_name">Nazwisko </label>
-          <input type="text" class="form-control" name='last_name' id="last_name" aria-describedby="emailHelp">
+          <input type="text" class="form-control" name='last_name' id="last_name" value="<?=set_value('last_name')?>">
         </div>
         <div class="form-group">
           <label for="exampleInputEmail1">Adres email</label>
           <input type="text" class="form-control" name ='email' id="exampleInputEmail1" aria-describedby="emailHelp">
           <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
+        <hr>
+        <div class="form-group">
+          <label for="firm">Nazwa firmy</label>
+          <input type="text" class="form-control" name='firm'id="firm" value="<?=set_value('firm')?>">
+        </div>
+        <div class="form-group">
+          <label for="nip">Nip</label>
+          <input type="text" class="form-control" name='nip'id="nip" value="<?=set_value('nip')?>" >
+        </div>
+        <hr>
         <div class="form-group">
           <label for="exampleInputPassword1">Hasło </label>
           <input type="password"  name = 'password'class="form-control" id="exampleInputPassword1">
@@ -33,7 +43,7 @@
           <input type="password"  name = 'password_confirm'class="form-control" id="exampleInputPassword2">
         </div>
         
-     <div class="row justify-content-center text-center">
+     <div class="row justify-content-center ">
        <div class="col-lg-7">
         <?php if(isset($validation)): ?>
           <div class="alert alert-danger" role='alert'>

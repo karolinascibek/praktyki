@@ -73,8 +73,35 @@ class Employer extends BaseController
 				'email'=>'required|valid_email|is_unique[users.email]',
 				'password'=>'required|max_length[255]',
 				'password_confirm'=>'matches[password]',
+				'nip' => 'required|min_length[10]|max_length[10]',
+				'firm' => 'required'
 			];
-			if(!$this->validate($rules)){
+			$errors = [
+				'name'=>[
+					'required'=>'Pole Nazwa jest wymagane'],
+				'last_name'=>[
+					'required'=>'Pole Nazwisko jest wymagane'],
+				'email'=> [
+					'required'=>'Pole Nazwa jest wymagane',
+					'valid_email' => 'Adress email jest nie poprawny',
+					'is_unique' => 'Podany email już istnieje'
+				],
+				'password' => [
+					'required' => 'Pole hasło jest wymagane',
+				],
+				'password_confirm'=>[
+					'matches'=>'Pole Hasło i Powtórz hasło musza byc takie same.'
+				],
+				'nip'=>[
+					'required'=> 'Pole nip jest wymagane.',
+					'min_length' => 'Pole nip nie może byc krótrze niź 10 znaków',
+					'max_length' => 'Pole nip nie może byc krótrze dłuższe 10 znaków',
+				],
+				'firm'=>[
+					'required' =>'Pole nazwa firmy jest wymagane.'
+				]
+			];
+			if(!$this->validate($rules,$errors)){
 				$data['validation']=$this->validator;
 			}
 			else{
@@ -84,9 +111,11 @@ class Employer extends BaseController
                     'name'=>$this->request->getVar('name'),
                     'last_name'=>$this->request->getVar('last_name'),
                     'email' => $this->request->getVar('email'),
-                    'password' => $this->request->getVar('password')
+                    'password' => $this->request->getVar('password'),
+                    'nip' => $this->request->getVar('nip'),
+                    'firm' => $this->request->getVar('firm')
                 ];
-
+				var_dump($newData);
                 $model->save($newData);
                 $session = session();
                 $session->setFlashdata('success','Rejestracja zakończyła się pomyślnie');

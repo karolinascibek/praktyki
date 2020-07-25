@@ -37,6 +37,7 @@ class Dashboard extends BaseController
                         'name' =>$this->request->getVar('name'),
                         'code' =>$code,
                         'id_employer' =>$id,
+                        'year' => $this->request->getVar('year'),
                     ];
                     $model->save($newData);
                 }

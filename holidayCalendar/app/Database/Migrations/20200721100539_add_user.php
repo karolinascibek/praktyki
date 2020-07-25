@@ -29,6 +29,14 @@ class AddUser extends Migration
                                 'type'           => 'VARCHAR',
                                 'constraint'     => '255',
                         ],
+                        'firm'       => [
+                                'type'           => 'VARCHAR',
+                                'constraint'     => '255',
+                        ],
+                        'nip'       => [
+                                'type'           => 'int',
+                                'constraint'     => '10',
+                        ],
                         'user_data_created'       => [
                                 'type'           => 'DATETIME',
                         ],

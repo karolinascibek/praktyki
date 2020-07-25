@@ -16,8 +16,15 @@
                 <div class="col-12 text-center">
                     <form class="form-inline justify-content-center" action='/dashboard' method='post'>
                             <div class="form-group mb-2 pr-1">
-                            <label for="name" class="sr-only">Nazwa</label>
+                                <label for="name" class="sr-only">Nazwa</label>
                                 <input type="text" name='name' class="form-control" id="name" placeholder="Nazwa"  value="<?=set_value('name');?>">
+                            </div>
+                            <div class="form-group px-2 mb-2 mx-2">
+                                <label for="year" class='mr-1' >Rok</label>
+                                <select selected class="form-control px-3" id="year" name='year'>
+                                    <option value='<?php echo date('Y'); ?>'><?php echo date('Y'); ?></option>
+                                    <option value='<?php echo date('Y') +1; ?>'><?php echo date('Y') +1; ?></option>
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-primary mb-2">Dodaj</button>        
                     </form>

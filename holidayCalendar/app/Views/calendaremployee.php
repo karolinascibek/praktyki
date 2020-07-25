@@ -26,12 +26,12 @@
     else{
         isEmployer = false;
     }
+    let year = <?php echo $year ;?>;
     let holidays_array =  <?php echo json_encode($holidays_array);?>;
     let holidays_array_db =  <?php echo json_encode($holidays_array);?>;
     let employees_array =  <?php echo json_encode($data);?>;
     let url = '<?php echo base_url(); ?>';
 </script>
-
 
 <div class="calendar-main  ">
     <div class='row   mx-5  my-3  '>
