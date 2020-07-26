@@ -125,7 +125,12 @@ class Calendar extends BaseController
         $session = session();
         if($this->request->getMethod() == 'post'){
             $model = new CalendarModel();
-            $model->where('id_calendar',$session->get('id_calendar'))->delete();
+            $model->where('id_calendar',$session->get('id_calendar'))
+                  ->delete();
+            //Usuwamy z kalendarz z tabeli pracownicy wrazie gdyby do kalendarza już ktoś dołączył a strona nie została odświerzona.
+            $cal_employee_model = new CalendarEmployeeModel();
+            $cal_employee_model->where('id_calendar',$session->get('id_calendar'))
+                               ->delete();
             return redirect()->to('/dashboard');
         }
     }

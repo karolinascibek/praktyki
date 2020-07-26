@@ -1,7 +1,7 @@
 <div class="container">
     <div class="nameAndDate">
         <div class='name' ><?php echo $name." ".$last_name; ?></div>
-        <div class='fieldDate'>Olsztyn,12.07.2020</div>
+        <div class='fieldDate'></div>
     </div>
     <div class="header">
         <div class='name'>imię i nazwisko pracownika</div>
