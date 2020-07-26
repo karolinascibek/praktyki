@@ -43,7 +43,7 @@
          <p> Właściciel: <?php echo $owner_calendar?></p>
         </div>
         <div class="col-1 px-0">
-           <a href="/formPDF" class = 'btn btn-success' > generuj wniosek</a>
+           <a href="/formPDF" class = 'btn btn-success' >wniosek o urlop</a>
         </div>
     </div>
     <hr>

@@ -148,6 +148,10 @@ class Calendar extends BaseController
                     ->join('users','users.id = calendar.id_employer')
                     ->select('users.name as owner, users.last_name , year, calendar.name, calendar.id_calendar')
                     ->first();
+        
+        if( !is_array($cal)){
+            return redirect()->to('/dashboard');
+        }
 
         $data = [
 			'id'       => $session->get('id'),
